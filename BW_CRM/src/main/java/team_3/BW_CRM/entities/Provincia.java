@@ -17,7 +17,8 @@ public class Provincia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private long id;
-    private String nome,sigla;
+    private String nome;
+    private String sigla;
 
     @OneToMany(mappedBy = "provincia")
     private List<Comune> comuni=new ArrayList<>();

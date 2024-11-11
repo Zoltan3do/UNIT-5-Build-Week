@@ -25,15 +25,10 @@ public class Utente implements UserDetails {
     @Setter(AccessLevel.NONE)
     private long id;
     private String username;
-
     private String email;
-
     private String password;
-
     private String nome;
-
     private String cognome;
-
     private String avatar;
 
     @ManyToMany
