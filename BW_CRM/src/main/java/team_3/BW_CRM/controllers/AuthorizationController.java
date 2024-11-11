@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 import team_3.BW_CRM.entities.Utente;
 import team_3.BW_CRM.exceptions.BadRequestException;
 import team_3.BW_CRM.payloads.LoginDTO;
+import team_3.BW_CRM.payloads.UtenteDTO;
+import team_3.BW_CRM.payloads.UtenteLoginResponseDTO;
 import team_3.BW_CRM.services.SecurityService;
 import team_3.BW_CRM.services.UserService;
 
@@ -28,21 +30,23 @@ public class AuthorizationController {
     private UserService userService;
 
     @PostMapping("/login")
-    public LoginResponseDTO LoginResponseDTO(@RequestBody @Validated LoginDTO body, BindingResult validationResult) {
+    public UtenteLoginResponseDTO LoginResponseDTO(@RequestBody @Validated LoginDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             String message = validationResult.getAllErrors().stream().map(objectError -> objectError.getDefaultMessage()).collect(Collectors.joining(". "));
             throw new BadRequestException("Ci sono stati errori nel payload! " + message);
         }
-        return new LoginResponseDTO(this.ss.checkCredentialsAndGenerateToken(body));
+        return new UtenteLoginResponseDTO(this.ss.checkCredentialsAndGenerateToken(body));
     }
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public Utente save(@RequestBody @Validated DipendenteDTO body, BindingResult validationResult) {
+    public Utente save(@RequestBody @Validated UtenteDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             String message = validationResult.getAllErrors().stream().map(objectError -> objectError.getDefaultMessage()).collect(Collectors.joining(". "));
             throw new BadRequestException("Ci sono stati errori nel payload! " + message);
         }
-        return this.dipendenteSer.save(body);
+        return this.userService.save(body);
     }
 }
+
+
