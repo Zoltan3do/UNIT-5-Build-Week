@@ -24,8 +24,9 @@ public class Provincia {
     @OneToMany(mappedBy = "provincia")
     private List<Comune> comuni = new ArrayList<>();
 
-    public Provincia(String nome, String sigla) {
+    public Provincia(String nome, String sigla, String regione) {
         this.nome = nome;
         this.sigla = sigla;
+        this.regione =regione;
     }
 }
