@@ -37,14 +37,30 @@ public class Cliente {
     @OneToOne
     @JoinColumn(name = "indirizzo_sede_legale_id")
     private Indirizzo sedeLegale;
+
     @OneToOne
     @JoinColumn(name = "indirizzo_sede_operativa_id")
     private Indirizzo sedeOperativa;
+
     @OneToMany(mappedBy = "cliente")
     private List<Fattura> fatture;
 
-
-    public Cliente(String ragioneSociale, String partitaIva, String email, LocalDate dataInserimento, LocalDate dataUltimoContatto, Double fatturatoAnnuale, String pec, String telefono, String emailContatto, String nomeContatto, String cognomeContatto, String telefonoContatto, TipoCliente tipoCliente) {
+    public Cliente(String ragioneSociale,
+                   String partitaIva,
+                   String email,
+                   LocalDate dataInserimento,
+                   LocalDate dataUltimoContatto,
+                   Double fatturatoAnnuale,
+                   String pec,
+                   String telefono,
+                   String emailContatto,
+                   String nomeContatto,
+                   String cognomeContatto,
+                   String telefonoContatto,
+                   String logoAziendale,
+                   TipoCliente tipoCliente,
+                   Indirizzo sedeLegale,
+                   Indirizzo sedeOperativa) {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
         this.email = email;
@@ -57,7 +73,9 @@ public class Cliente {
         this.nomeContatto = nomeContatto;
         this.cognomeContatto = cognomeContatto;
         this.telefonoContatto = telefonoContatto;
-        this.logoAziendale = "https://ui-avatars.com/api/?name=" + this.nomeContatto + "+" + this.cognomeContatto;
+        this.logoAziendale = logoAziendale;
         this.tipoCliente = tipoCliente;
+        this.sedeLegale = sedeLegale;
+        this.sedeOperativa = sedeOperativa;
     }
 }

@@ -19,6 +19,9 @@ public class Indirizzo {
     private String localita;
     private String cap;
 
+    @OneToOne(mappedBy = "sedeLegale")
+    private Cliente cliente;
+
     @ManyToOne
     @JoinColumn(name = "comune_id")
     private Comune comune;
