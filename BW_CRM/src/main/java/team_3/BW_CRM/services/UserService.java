@@ -2,12 +2,14 @@ package team_3.BW_CRM.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
 import team_3.BW_CRM.entities.Utente;
 import team_3.BW_CRM.exceptions.BadRequestException;
 import team_3.BW_CRM.exceptions.NotFoundException;
 import team_3.BW_CRM.payloads.UtenteDTO;
 import team_3.BW_CRM.repositories.UserRepository;
 
+@Service
 public class UserService {
 
     @Autowired

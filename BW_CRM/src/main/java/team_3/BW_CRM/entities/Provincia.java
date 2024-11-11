@@ -19,9 +19,10 @@ public class Provincia {
     private long id;
     private String nome;
     private String sigla;
+    private String regione;
 
     @OneToMany(mappedBy = "provincia")
-    private List<Comune> comuni=new ArrayList<>();
+    private List<Comune> comuni = new ArrayList<>();
 
     public Provincia(String nome, String sigla) {
         this.nome = nome;
