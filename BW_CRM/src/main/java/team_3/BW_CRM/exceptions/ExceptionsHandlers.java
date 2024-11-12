@@ -14,6 +14,12 @@ import java.time.LocalDateTime;
 @RestControllerAdvice
 public class ExceptionsHandlers {
 
+    @ExceptionHandler(InvalidLineException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ErrorsRespDTO handleBadRequest(InvalidLineException ex) {
+        return new ErrorsRespDTO(ex.getMessage(), LocalDateTime.now());
+    }
+
     @ExceptionHandler(BadRequestException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ErrorsRespDTO handleBadRequest(BadRequestException ex) {
