@@ -16,6 +16,9 @@ public class Comune {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private long id;
+    private String codiceProvincia;
+    private String codiceComune;
+
     private String nome;
 
     @ManyToOne
@@ -25,8 +28,11 @@ public class Comune {
     @OneToMany(mappedBy = "comune")
     private List<Indirizzo> indirizzi= new ArrayList<>();
 
-    public Comune(String nome) {
+    public Comune(String codiceProvincia, String codiceComune, String nome, Provincia provincia) {
+        this.codiceProvincia = codiceProvincia;
+        this.codiceComune = codiceComune;
         this.nome = nome;
+        this.provincia = provincia;
     }
 
     public long getId() {

@@ -16,8 +16,11 @@ public class Provincia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private long id;
+
     private String nome;
+
     private String sigla;
+
     private String regione;
 
     @OneToMany(mappedBy = "provincia")
