@@ -29,12 +29,12 @@
     &quot;assignee&quot;: &quot;marcozaga96&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Zoltan3do/UNIT-5-Build-Week.git&quot;,
-    &quot;accountId&quot;: &quot;477da8c3-00cc-4392-abdf-68b2ffcd3379&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Zoltan3do/UNIT-5-Build-Week.git",
+    "accountId": "7f58be63-5897-456b-a250-bfdcc9ba5cfc"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -47,8 +47,9 @@
   "keyToString": {
     "Application.BwCrmApplication.executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "auth",
+    "git-widget-placeholder": "cliente-branch",
     "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/marco",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",
