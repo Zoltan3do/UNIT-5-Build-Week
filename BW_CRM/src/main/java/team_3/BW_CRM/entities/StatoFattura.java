@@ -6,8 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter
-@Setter
+
 @NoArgsConstructor
 @Entity
 @Table(name = "stato_fatture")
@@ -19,6 +18,19 @@ public class StatoFattura {
     private String tipo;
 
     public StatoFattura(String tipo) {
+        this.tipo = tipo;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
         this.tipo = tipo;
     }
 }

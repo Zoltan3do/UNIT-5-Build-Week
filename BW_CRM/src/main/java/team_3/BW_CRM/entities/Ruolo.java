@@ -5,8 +5,7 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
+
 @NoArgsConstructor
 @ToString
 @Entity
@@ -18,10 +17,27 @@ public class Ruolo {
     private long id;
     private String tipo;
 
+    @Setter
     @ManyToMany(mappedBy = "ruoli")
     private List<Utente> utenti;
+
 
     public Ruolo(String tipo) {
         this.tipo = tipo;
     }
+
+    public long getId() {
+        return id;
+    }
+
+
+    public String getTipo() {
+        return tipo;
+    }
+
+
+    public List<Utente> getUtenti() {
+        return utenti;
+    }
+
 }
