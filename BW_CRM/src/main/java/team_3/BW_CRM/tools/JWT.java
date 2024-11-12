@@ -21,7 +21,7 @@ public class JWT {
         return Jwts.builder()
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(new Date(System.currentTimeMillis() + 1000 * 60 * 15))
-                .subject(utente.getUsername())
+                .subject(String.valueOf(utente.getId()))
                 .signWith(Keys.hmacShaKeyFor(secret.getBytes()))
                 .compact();
     }
@@ -38,7 +38,10 @@ public class JWT {
 
     public String getIdFromToken(String accessToken){
         return Jwts.parser().verifyWith(Keys.hmacShaKeyFor(secret.getBytes()))
-                .build().parseSignedClaims(accessToken).getPayload().getSubject();
+                .build()
+                .parseSignedClaims(accessToken)
+                .getPayload()
+                .getSubject();
     }
 
 }

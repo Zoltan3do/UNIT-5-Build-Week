@@ -13,13 +13,14 @@ import team_3.BW_CRM.services.ClienteService;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/cliente")
+@RequestMapping("/clienti")
 public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+
     public Cliente save(@RequestBody @Validated ClienteDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             String message = validationResult.getAllErrors().stream().map(objectError -> objectError.getDefaultMessage()).collect(Collectors.joining(". "));
