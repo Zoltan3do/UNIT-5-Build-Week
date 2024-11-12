@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-@Getter
-@Setter
+
+
 @NoArgsConstructor
 @ToString
 @Entity
@@ -31,5 +31,49 @@ public class Fattura {
         this.data = data;
         this.numero = numero;
         this.importo = importo;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public LocalDate getData() {
+        return data;
+    }
+
+    public void setData(LocalDate data) {
+        this.data = data;
+    }
+
+    public double getImporto() {
+        return importo;
+    }
+
+    public void setImporto(double importo) {
+        this.importo = importo;
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
+    }
+
+    public Cliente getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(Cliente cliente) {
+        this.cliente = cliente;
+    }
+
+    public StatoFattura getStatoFattura() {
+        return statoFattura;
+    }
+
+    public void setStatoFattura(StatoFattura statoFattura) {
+        this.statoFattura = statoFattura;
     }
 }

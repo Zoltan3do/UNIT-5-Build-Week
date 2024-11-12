@@ -6,8 +6,7 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+
 @NoArgsConstructor
 @ToString
 @Entity
@@ -28,5 +27,41 @@ public class Provincia {
         this.nome = nome;
         this.sigla = sigla;
         this.regione =regione;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getSigla() {
+        return sigla;
+    }
+
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
+    }
+
+    public String getRegione() {
+        return regione;
+    }
+
+    public void setRegione(String regione) {
+        this.regione = regione;
+    }
+
+    public List<Comune> getComuni() {
+        return comuni;
+    }
+
+    public void setComuni(List<Comune> comuni) {
+        this.comuni = comuni;
     }
 }
