@@ -1,12 +1,10 @@
 package team_3.BW_CRM.tools;
 
 
-
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.apache.tomcat.util.http.parser.Authorization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -37,10 +35,10 @@ public class JWTChecker extends OncePerRequestFilter {
         String accessToken = authorizationHeader.split(" ")[1];
         jwt.verifyToken(accessToken);
 
-        String idUtente = jwt.getIdFromToken(accessToken);
-        Utente utenteCorrente = this.userService.findById(Long.valueOf(idUtente));
+        Long idUtente = Long.valueOf(jwt.getIdFromToken(accessToken));
+        Utente utenteCorrente = this.userService.findById(idUtente);
 
-        Authentication authentication = new UsernamePasswordAuthenticationToken(utenteCorrente,null, utenteCorrente.getAuthorities());
+        Authentication authentication = new UsernamePasswordAuthenticationToken(utenteCorrente, null, utenteCorrente.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         filterChain.doFilter(request, response);

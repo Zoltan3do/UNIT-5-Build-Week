@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-
-
-
+@Getter
 @NoArgsConstructor
 @ToString
 @Entity
@@ -31,7 +29,7 @@ public class Utente implements UserDetails {
     private String cognome;
     private String avatar;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ruoli_utente",
     joinColumns = @JoinColumn(name = "utente_id"),
     inverseJoinColumns = @JoinColumn(name = "ruolo_id"))
@@ -44,63 +42,35 @@ public class Utente implements UserDetails {
         this.nome = nome;
         this.cognome = cognome;
         this.avatar = "https://ui-avatars.com/api/?name=" + this.nome + "+" + this.cognome;
+        this.ruoli.add(new Ruolo("USER"));
     }
 
-    public long getId() {
-        return id;
-    }
-
-
-    public String getUsername() {
-        return username;
+    public String getUsername(){
+        return this.username;
     }
 
     public void setUsername(String username) {
         this.username = username;
     }
 
-    public String getEmail() {
-        return email;
-    }
-
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
     }
 
     public void setPassword(String password) {
         this.password = password;
     }
 
-    public String getNome() {
-        return nome;
-    }
-
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getCognome() {
-        return cognome;
     }
 
     public void setCognome(String cognome) {
         this.cognome = cognome;
     }
 
-    public String getAvatar() {
-        return avatar;
-    }
-
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-    }
-
-    public List<Ruolo> getRuoli() {
-        return ruoli;
     }
 
     public void setRuoli(List<Ruolo> ruoli) {

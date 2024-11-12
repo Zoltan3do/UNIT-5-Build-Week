@@ -1,7 +1,10 @@
 package team_3.BW_CRM.entities;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
 import team_3.BW_CRM.enums.TipoCliente;
 
 import java.time.LocalDate;
@@ -16,7 +19,7 @@ public class Cliente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
-    private Long id;
+    private long id;
     private String ragioneSociale;
     private String partitaIva;
     private String email;
@@ -47,38 +50,37 @@ public class Cliente {
     public Cliente(String ragioneSociale,
                    String partitaIva,
                    String email,
-                   LocalDate dataInserimento,
-                   LocalDate dataUltimoContatto,
-                   Double fatturatoAnnuale,
                    String pec,
                    String telefono,
                    String emailContatto,
                    String nomeContatto,
                    String cognomeContatto,
                    String telefonoContatto,
-                   String logoAziendale,
-                   TipoCliente tipoCliente,
-                   Indirizzo sedeLegale,
-                   Indirizzo sedeOperativa) {
+                   TipoCliente tipoCliente
+    ) {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
         this.email = email;
-        this.dataInserimento = dataInserimento;
-        this.dataUltimoContatto = dataUltimoContatto;
-        this.fatturatoAnnuale = fatturatoAnnuale;
+        this.dataInserimento = LocalDate.now();
         this.pec = pec;
         this.telefono = telefono;
         this.emailContatto = emailContatto;
         this.nomeContatto = nomeContatto;
         this.cognomeContatto = cognomeContatto;
         this.telefonoContatto = telefonoContatto;
-        this.logoAziendale = logoAziendale;
+        this.logoAziendale = "https://ui-avatars.com/api/?name=" + this.ragioneSociale;
         this.tipoCliente = tipoCliente;
         this.sedeLegale = sedeLegale;
         this.sedeOperativa = sedeOperativa;
     }
 
-    public Long getId() {
+    public void aggiungiFattura(Fattura fattura) {
+        this.fatture.add(fattura);
+        this.fatturatoAnnuale += fattura.getImporto();
+        this.dataUltimoContatto = fattura.getData();
+    }
+
+    public long getId() {
         return id;
     }
 
