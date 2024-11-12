@@ -1,5 +1,6 @@
 package team_3.BW_CRM.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,6 +20,7 @@ public class Ruolo {
 
     @Setter
     @ManyToMany(mappedBy = "ruoli")
+    @JsonIgnore
     private List<Utente> utenti;
 
 
