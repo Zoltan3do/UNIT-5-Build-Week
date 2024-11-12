@@ -1,8 +1,11 @@
 package team_3.BW_CRM.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import team_3.BW_CRM.entities.Ruolo;
 import team_3.BW_CRM.entities.Utente;
 import team_3.BW_CRM.exceptions.BadRequestException;
@@ -11,6 +14,7 @@ import team_3.BW_CRM.payloads.UtenteDTO;
 import team_3.BW_CRM.repositories.RuoloRepository;
 import team_3.BW_CRM.repositories.UserRepository;
 
+import java.io.IOException;
 import java.util.List;
 
 @Service
@@ -25,6 +29,8 @@ public class UserService {
     @Autowired
     private RuoloRepository ruoloRepository;
 
+    @Autowired
+    private Cloudinary cloudinaryUploader;
 
     public Utente findById(Long id) {
         return this.userRepository.findById(id)
@@ -48,7 +54,28 @@ public class UserService {
         );
 
         Utente newUser = new Utente(body.username(), body.email(), bcrypt.encode(body.password()), body.nome(), body.cognome());
+
+        Ruolo ruoloUser = ruoloRepository.findByTipo("USER")
+                .orElseThrow(() -> new NotFoundException("Ruolo USER non trovato"));
+        newUser.getRuoli().add(ruoloUser);
+
         return this.userRepository.save(newUser);
+    }
+
+    public String uploadFotoProfilo(MultipartFile file, Long idUtente) {
+        try {
+            String url = (String) cloudinaryUploader.uploader()
+                    .upload(file.getBytes(), ObjectUtils.emptyMap())
+                    .get("url");
+
+            Utente found = this.findById(idUtente);
+            found.setAvatar(url);
+            userRepository.save(found);
+
+            return url;
+        } catch (java.io.IOException e) {
+            throw new BadRequestException("Errore durante l'upload dell'immagine!");
+        }
     }
 
 
@@ -67,6 +94,21 @@ public class UserService {
         utente.getRuoli().add(ruolo);
         userRepository.save(utente);
     }
+    public void removeRoleFromUser(Long userId, String tipoRuolo) {
+        Utente utente = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("Nessun utente trovato con ID: " + userId));
+
+        Ruolo ruolo = ruoloRepository.findByTipo(tipoRuolo)
+                .orElseThrow(() -> new NotFoundException("Nessun ruolo trovato con tipo: " + tipoRuolo));
+
+        if (!utente.getRuoli().contains(ruolo)) {
+            throw new BadRequestException("L'utente non ha il ruolo specificato: " + tipoRuolo);
+        }
+
+        utente.getRuoli().remove(ruolo);
+        userRepository.save(utente);
+    }
+
 
 
     public Utente updateUser(Long id, UtenteDTO userDTO) {
@@ -79,7 +121,7 @@ public class UserService {
         utente.setNome(userDTO.nome());
         utente.setCognome(userDTO.cognome());
 
-        // Non aggiorna la password a meno che non venga fornita
+
         if (userDTO.password() != null && !userDTO.password().isEmpty()) {
             utente.setPassword(bcrypt.encode(userDTO.password()));
         }
@@ -92,6 +134,13 @@ public class UserService {
 
         return userRepository.findByRuoli(ruolo);
     }
+
+
+    public Utente findByUsername(String username) {
+        return this.userRepository.findByUsername(username)
+                .orElseThrow(() -> new NotFoundException("Nessun utente trovato con nome: " + username));
+    }
+
 
     public void deleteUser(Long id) {
         Utente utente = userRepository.findById(id)

@@ -19,19 +19,18 @@ public class UtenteController {
     @Autowired
     private UserService userService;
 
-
     @GetMapping("/{id}")
     public ResponseEntity<Utente> getUserById(@PathVariable Long id) {
         Utente user = userService.findById(id);
         return ResponseEntity.ok(user);
     }
 
-
-    @PostMapping("/register")
-    public ResponseEntity<Utente> registerUser(@RequestBody UtenteDTO userDTO) {
-        Utente createdUser = userService.save(userDTO);
-        return ResponseEntity.created(URI.create("/api/utenti/" + createdUser.getId())).body(createdUser);
+    @GetMapping("/username/{username}")
+    public ResponseEntity<Utente> getUserByUsername(@PathVariable String username) {
+        Utente user = userService.findByUsername(username);
+        return ResponseEntity.ok(user);
     }
+
 
 
     @PutMapping("/{id}/assign-role")
@@ -40,6 +39,13 @@ public class UtenteController {
         return ResponseEntity.ok().build();
     }
 
+    @PutMapping("/{id}/remove-role")
+    public ResponseEntity<Void> removeRoleFromUser(@PathVariable Long id, @RequestParam String roleType) {
+        userService.removeRoleFromUser(id, roleType);
+        return ResponseEntity.ok().build();
+    }
+
+
     @GetMapping("/by-role")
     public ResponseEntity<List<Utente>> getUsersByRole(@RequestParam String tipoRuolo) {
         List<Utente> users = userService.findUtenteByRuolo(tipoRuolo);
@@ -47,14 +53,15 @@ public class UtenteController {
     }
 
     @PutMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+   // @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Utente> updateUser(@PathVariable Long id, @RequestBody UtenteDTO userDTO) {
         Utente updatedUser = userService.updateUser(id, userDTO);
+        //Utente uploadImage = userService.uploadFotoProfilo();
         return ResponseEntity.ok(updatedUser);
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);

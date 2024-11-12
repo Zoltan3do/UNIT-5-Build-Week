@@ -1,12 +1,18 @@
 package team_3.BW_CRM.entities;
 
+import com.cloudinary.utils.ObjectUtils;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.multipart.MultipartFile;
+import team_3.BW_CRM.exceptions.BadRequestException;
+import team_3.BW_CRM.repositories.UserRepository;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -31,7 +37,7 @@ public class Utente implements UserDetails {
     private String cognome;
     private String avatar;
 
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "ruoli_utente",
     joinColumns = @JoinColumn(name = "utente_id"),
     inverseJoinColumns = @JoinColumn(name = "ruolo_id"))
@@ -115,4 +121,5 @@ public class Utente implements UserDetails {
         }
         return listaGranted;
     }
+
 }
