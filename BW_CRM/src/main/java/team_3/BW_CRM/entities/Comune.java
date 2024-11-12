@@ -18,6 +18,8 @@ public class Comune {
     private long id;
     private String codiceProvincia;
     private String codiceComune;
+
+    @Column(unique = true)
     private String nome;
 
     @ManyToOne
