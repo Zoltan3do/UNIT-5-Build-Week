@@ -22,6 +22,10 @@ public class UserService {
         return this.userRepository.findById(id).orElseThrow(() -> new NotFoundException("Nessun utente trovato!"));
     }
 
+    public Utente findByEmail(String email) {
+        return this.userRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Nessuna mail trovata"));
+    }
+
     public Utente save(UtenteDTO body) {
         this.userRepository.findByEmail(body.email()).ifPresent(
                 user -> {

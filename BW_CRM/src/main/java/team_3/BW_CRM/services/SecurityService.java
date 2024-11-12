@@ -23,7 +23,7 @@ public class SecurityService {
     private PasswordEncoder bcrypt;
 
     public String checkCredentialsAndGenerateToken(LoginDTO body) {
-        Utente found = this.userService.findById(body.id());
+        Utente found = this.userService.findByEmail(body.email());
 
         if (bcrypt.matches(body.password(), found.getPassword())) {
             return jwt.createToken(found);
