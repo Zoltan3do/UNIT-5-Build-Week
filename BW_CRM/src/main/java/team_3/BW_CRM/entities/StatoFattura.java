@@ -15,7 +15,7 @@ public class StatoFattura {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Setter(AccessLevel.NONE)
     private long id;
-    private String tipo;
+    private String tipo = "EMESSA";
 
     public StatoFattura(String tipo) {
         this.tipo = tipo;
