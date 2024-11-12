@@ -128,7 +128,7 @@ public class FatturaService {
     }
 
     public Page<Fattura> findByYear(Integer anno, Pageable pageable) {
-        Page<Fattura> fatture = fatturaRepository.findByFatturaDataYear(anno, pageable);
+        Page<Fattura> fatture = fatturaRepository.findByAnno(anno, pageable);
 
         if (fatture.isEmpty()) {
             throw new NotFoundException("Nessuna fattura trovata per l'anno " + anno + ".");
@@ -138,7 +138,7 @@ public class FatturaService {
     }
 
     public Page<Fattura> findByData(LocalDate data, Pageable pageable) {
-        Page<Fattura> fatture = fatturaRepository.findByFatturaData(data, pageable);
+        Page<Fattura> fatture = fatturaRepository.findByData(data, pageable);
 
         if (fatture.isEmpty()) {
             throw new NotFoundException("Nessuna fattura trovata per la data " + data + ".");
