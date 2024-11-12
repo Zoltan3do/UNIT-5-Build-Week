@@ -12,7 +12,7 @@ import java.util.Optional;
 @Repository
 public interface FatturaRepository extends JpaRepository<Fattura,Long> {
 
-    Page<Fattura> findByNumero(Integer numero, Pageable pageable);
+    Optional <Fattura> findByNumero(Integer numero);
     Page<Fattura> findByFatturaData(LocalDate data, Pageable pageable);
     Page<Fattura> findByClienteId(Long id, Pageable pageable);
     Page<Fattura> findByImportoBetween(Double minImporto, Double maxImporto, Pageable pageable);

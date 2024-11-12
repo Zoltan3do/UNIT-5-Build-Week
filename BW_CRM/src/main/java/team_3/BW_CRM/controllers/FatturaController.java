@@ -54,18 +54,40 @@ public class FatturaController {
     }
 
     @GetMapping("/{fatturaNumero}")
-    public Page<Fattura> getFattureByNumero(
-            @RequestParam Integer numero,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sortBy) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
-        return this.fatturaService.findByNumero(numero, pageable);
+    public Fattura getFatturaByNumero(
+            @PathVariable Integer fatturaNumero) {
+        return this.fatturaService.findByNumero(fatturaNumero);
     }
+
+
+    @PutMapping("/{fatturaNumero}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public Fattura findFatturaByNumeroAndUpdate(
+            @PathVariable Integer fatturaNumero,
+            @RequestBody @Validated NewFatturaDTO body,
+            BindingResult validationResult) {
+
+        if (validationResult.hasErrors()) {
+            String message = validationResult.getAllErrors().stream()
+                    .map(error -> error.getDefaultMessage())
+                    .collect(Collectors.joining(". "));
+            throw new BadRequestException("Errore nei dati inviati: " + message);
+        }
+
+        return fatturaService.findByNumeroAndUpdate(fatturaNumero, body);
+    }
+
+    @DeleteMapping("/{fatturaNumero}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public void findFatturaByNumeroAndDelete(@PathVariable Integer numero) {
+        this.fatturaService.findByNumeroAndDelete(numero);
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority('ORGANIZZATORE_EVENTI')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Fattura saveFattura(@RequestBody @Validated NewFatturaDTO body, BindingResult validationResult){
         if(validationResult.hasErrors()){
             String message = validationResult.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining(". "));
@@ -75,29 +97,39 @@ public class FatturaController {
     }
 
     @GetMapping("/{fatturaId}")
-    public Fattura findByIdFattura(@PathVariable Long id) {
-        return this.fatturaService.findById(id);
+    public Fattura findByIdFattura(@PathVariable Long fatturaId) {
+        return this.fatturaService.findById(fatturaId);
     }
 
     @PutMapping("/{fatturaId}")
-    @PreAuthorize("hasAuthority('ORGANIZZATORE_EVENTI')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public Fattura findByIdAndUpdate(
-            @PathVariable Long eventoId,
+            @PathVariable Long fatturaId,
             @RequestBody @Validated NewFatturaDTO body,
             BindingResult validationResult) {
         if (validationResult.hasErrors()) {String message = validationResult.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining(". "));
             throw new BadRequestException("Errori nel payload: " + message);
         }
-        return this.fatturaService.findByIdAndUpdate(eventoId, body);
+        return this.fatturaService.findByIdAndUpdate(fatturaId, body);
     }
 
     @DeleteMapping("/{fatturaId}")
-    @PreAuthorize("hasAuthority('ORGANIZZATORE_EVENTI')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findByIdAndDelete(@PathVariable Long eventoId) {
         this.fatturaService.findByIdAndDelete(eventoId);
     }
 
+    @GetMapping("/importo")
+    public Page<Fattura> getFattureByImporto(
+            @RequestParam(required = false) Double minImporto,
+            @RequestParam(required = false) Double maxImporto,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy) {
 
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return this.fatturaService.findByRange(minImporto, maxImporto, pageable);
+    }
 
 }

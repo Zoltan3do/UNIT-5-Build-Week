@@ -52,7 +52,7 @@ public class FatturaService {
     }
 
     public Fattura findById(Long id) {
-        return fatturaRepository.findById(id).orElseThrow(() -> new NotFoundException("Nessuna fattura trovata con questo ID"));
+        return fatturaRepository.findById(id).orElseThrow(() -> new NotFoundException("Nessuna fattura trovata con questo ID: " + id));
     }
 
     public Fattura findByIdAndUpdate(Long id, NewFatturaDTO body) {
@@ -88,15 +88,43 @@ public class FatturaService {
         return fatturaRepository.save(fattura);
     }
 
-    public Page<Fattura> findByNumero(Integer numero, Pageable pageable) {
-
-        Page<Fattura> fatture = fatturaRepository.findByNumero(numero, pageable);
-
-        if (fatture.isEmpty()) {
-            throw new NotFoundException("Nessuna fattura trovata con questo numero " + numero + ".");
+    public Fattura findByNumeroAndUpdate(Integer numero, NewFatturaDTO body) {
+        Fattura fattura = fatturaRepository.findByNumero(numero).orElseThrow(() -> new NotFoundException("Nessuna fattura trovata con questo numero: " + numero));
+        if(body.data().isBefore(LocalDate.now())){
+            throw new BadRequestException("Non puoi mettere una data passata a quella odierna!");
         }
 
-        return fatture;
+        if(!body.data().equals(fattura.getData())) {
+            fattura.setData(body.data());
+        }
+
+        if (!body.clienteId().equals(fattura.getCliente().getId())) {
+            Cliente cliente = clienteRepository.findById(body.clienteId().getId())
+                    .orElseThrow(() -> new NotFoundException("Cliente non trovato con id " + body.clienteId()));
+            fattura.setCliente(cliente);
+        }
+
+        if(!body.importo().equals(fattura.getImporto())) {
+            fattura.setImporto(body.importo());
+        }
+
+        if (fatturaRepository.existsByNumero(body.numero()) && !body.numero().equals(fattura.getNumero())) {
+            throw new BadRequestException("Esiste già una fattura con questo numero!");
+        }
+
+        if (!body.numero().equals(fattura.getNumero())) {
+            fattura.setNumero(body.numero());
+        }
+
+        if(!body.statoFattura().equals(fattura.getStatoFattura())) {
+            fattura.setStatoFattura(body.statoFattura());
+        }
+
+        return fatturaRepository.save(fattura);
+    }
+
+    public Fattura findByNumero(Integer numero) {
+        return fatturaRepository.findByNumero(numero).orElseThrow(() -> new NotFoundException("Nessuna fattura con questo numero: " + numero));
     }
 
     public Page<Fattura> findByYear(Integer anno, Pageable pageable) {
@@ -144,6 +172,11 @@ public class FatturaService {
 
     public void findByIdAndDelete(Long id) {
         Fattura found = this.findById(id);
+        fatturaRepository.delete(found);
+    }
+
+    public void findByNumeroAndDelete(Integer numero) {
+        Fattura found = this.findByNumero(numero);
         fatturaRepository.delete(found);
     }
 
