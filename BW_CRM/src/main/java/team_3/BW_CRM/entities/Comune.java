@@ -6,8 +6,7 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Getter
-@Setter
+
 @NoArgsConstructor
 @ToString
 @Entity
@@ -28,5 +27,33 @@ public class Comune {
 
     public Comune(String nome) {
         this.nome = nome;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public Provincia getProvincia() {
+        return provincia;
+    }
+
+    public void setProvincia(Provincia provincia) {
+        this.provincia = provincia;
+    }
+
+    public List<Indirizzo> getIndirizzi() {
+        return indirizzi;
+    }
+
+    public void setIndirizzi(List<Indirizzo> indirizzi) {
+        this.indirizzi = indirizzi;
     }
 }
