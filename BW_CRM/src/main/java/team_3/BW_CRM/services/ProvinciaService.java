@@ -3,15 +3,11 @@ package team_3.BW_CRM.services;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validator;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.coyote.BadRequestException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import team_3.BW_CRM.entities.Provincia;
-import team_3.BW_CRM.entities.Utente;
-import team_3.BW_CRM.exceptions.InvalidLineException;
 import team_3.BW_CRM.exceptions.NotFoundException;
 import team_3.BW_CRM.payloads.ProvinciaDTO;
-import team_3.BW_CRM.payloads.UtenteDTO;
 import team_3.BW_CRM.repositories.ProvinciaRepository;
 
 import java.io.BufferedReader;
@@ -35,6 +31,10 @@ public class ProvinciaService {
     public Provincia save(ProvinciaDTO body) {
         Provincia newProvince = new Provincia(body.nome(), body.sigla(), body.regione());
         return this.pr.save(newProvince);
+    }
+
+    public Optional<Provincia> findProvinciaById(Long id){
+        return pr.findById(id);
     }
 
 
@@ -85,9 +85,6 @@ public class ProvinciaService {
                 ProvinciaDTO provincia = new ProvinciaDTO(sigla, nome, regione);
                 Set<ConstraintViolation<ProvinciaDTO>> violations = validator.validate(provincia);
                 if (!violations.isEmpty()) {
-                    for (ConstraintViolation<ProvinciaDTO> violation : violations) {
-                        System.out.println("Errore di validazione: " + violation.getMessage());
-                    }
                     continue;
                 }
                 this.save(provincia);
