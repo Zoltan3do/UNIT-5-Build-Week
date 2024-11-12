@@ -19,7 +19,6 @@ public class Comune {
     private String codiceProvincia;
     private String codiceComune;
 
-    @Column(unique = true)
     private String nome;
 
     @ManyToOne

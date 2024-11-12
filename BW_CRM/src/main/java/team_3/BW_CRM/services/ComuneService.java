@@ -48,28 +48,39 @@ public class ComuneService {
             while (linea != null) {
                 String[] colonne = linea.split(";");
                 if (colonne.length < 4) {
-                    System.out.println(("Riga non valida"));
+                    log.warn("Riga non valida: "+ linea);
+                    linea = br.readLine();
                     continue;
                 }
+
                 String codProvincia = colonne[0].trim();
                 String codComune = colonne[1].trim();
-                String nome = colonne[2].trim();
-                String provincia = colonne[3].trim();
-                ComuneDTO comuneDTO = new ComuneDTO(codProvincia, codComune, nome, provincia);
+                String nomeComune = colonne[2].trim();
+                String nomeProvincia = colonne[3].trim();
+
+                ComuneDTO comuneDTO = new ComuneDTO(codProvincia, codComune, nomeComune, nomeProvincia);
+
                 Set<ConstraintViolation<ComuneDTO>> violations = validator.validate(comuneDTO);
                 if (!violations.isEmpty()) {
                     for (ConstraintViolation<ComuneDTO> violation : violations) {
-                        System.out.println("Errore di validazione: " + violation.getMessage());
+                        log.warn("Errore di validazione per il comune "+ nomeComune+ " "+ violation.getMessage());
                     }
+                    linea = br.readLine();
                     continue;
                 }
-                this.save(comuneDTO);
+
+                Optional<Provincia> provincia = ps.findByNome(nomeProvincia);
+                if (provincia.isPresent()) {
+                    this.save(comuneDTO);
+                    log.info("Comune "+ nomeComune+" salvato con successo.");
+                }
                 linea = br.readLine();
             }
         } catch (Exception e) {
-            log.error("Errore durante l'estrazione dei comuni dal csv");
+            log.error("Errore durante l'estrazione dei comuni dal CSV", e);
         }
     }
+
 
 
 }

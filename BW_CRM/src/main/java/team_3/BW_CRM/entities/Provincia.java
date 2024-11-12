@@ -17,10 +17,8 @@ public class Provincia {
     @Setter(AccessLevel.NONE)
     private long id;
 
-    @Column(unique = true)
     private String nome;
 
-    @Column(unique = true)
     private String sigla;
 
     private String regione;

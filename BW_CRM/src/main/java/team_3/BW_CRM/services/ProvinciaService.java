@@ -60,7 +60,6 @@ public class ProvinciaService {
         Optional<Provincia> provincia = pr.findByNome(nome);
         if (provincia.isEmpty()) {
             log.warn("Not found!");
-            throw new NotFoundException("Provincia non trovata");
         }
         return provincia;
     }
