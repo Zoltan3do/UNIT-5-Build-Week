@@ -29,8 +29,8 @@ public class UserService {
     @Autowired
     private RuoloRepository ruoloRepository;
 
-    @Autowired
-    private Cloudinary cloudinaryUploader;
+//    @Autowired
+//    private Cloudinary cloudinaryUploader;
 
     public Utente findById(Long id) {
         return this.userRepository.findById(id)
@@ -62,21 +62,21 @@ public class UserService {
         return this.userRepository.save(newUser);
     }
 
-    public String uploadFotoProfilo(MultipartFile file, Long idUtente) {
-        try {
-            String url = (String) cloudinaryUploader.uploader()
-                    .upload(file.getBytes(), ObjectUtils.emptyMap())
-                    .get("url");
-
-            Utente found = this.findById(idUtente);
-            found.setAvatar(url);
-            userRepository.save(found);
-
-            return url;
-        } catch (java.io.IOException e) {
-            throw new BadRequestException("Errore durante l'upload dell'immagine!");
-        }
-    }
+//    public String uploadFotoProfilo(MultipartFile file, Long idUtente) {
+//        try {
+//            String url = (String) cloudinaryUploader.uploader()
+//                    .upload(file.getBytes(), ObjectUtils.emptyMap())
+//                    .get("url");
+//
+//            Utente found = this.findById(idUtente);
+//            found.setAvatar(url);
+//            userRepository.save(found);
+//
+//            return url;
+//        } catch (java.io.IOException e) {
+//            throw new BadRequestException("Errore durante l'upload dell'immagine!");
+//        }
+//    }
 
 
     public void assignRoleToUser(Long userId, String tipoRuolo) {
