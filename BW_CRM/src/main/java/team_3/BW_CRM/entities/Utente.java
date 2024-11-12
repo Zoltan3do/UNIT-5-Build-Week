@@ -45,6 +45,10 @@ public class Utente implements UserDetails {
         this.ruoli.add(new Ruolo("USER"));
     }
 
+    public long getId() {
+        return id;
+    }
+
     public String getUsername(){
         return this.username;
     }
