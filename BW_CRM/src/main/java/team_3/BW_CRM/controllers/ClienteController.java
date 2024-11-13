@@ -2,6 +2,8 @@ package team_3.BW_CRM.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -11,6 +13,7 @@ import team_3.BW_CRM.exceptions.BadRequestException;
 import team_3.BW_CRM.payloads.ClienteDTO;
 import team_3.BW_CRM.services.ClienteService;
 
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 @RestController
@@ -19,12 +22,27 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    @GetMapping
+    @GetMapping("/all")
     public Page<Cliente> getCliente(@RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "10") int size,
                                     @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.getAllClienteList(page, size, sortBy);
     }
+
+    @GetMapping
+    public Page<Cliente> getClienti(@RequestParam(required = false) Double fatturatoMinimo,
+                                    @RequestParam(required = false) LocalDate dataInserimento,
+                                    @RequestParam(required = false) LocalDate dataUltimoContatto,
+                                    @RequestParam(required = false) String parteDelNome,
+                                    @RequestParam(required = false) String nomeContatto,
+                                    @RequestParam(required = false) String cognomeContatto,
+                                    @RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size);
+        return clienteService.filtraClienti(fatturatoMinimo, dataInserimento, dataUltimoContatto, parteDelNome, nomeContatto, cognomeContatto, pageable);
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
