@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -22,25 +23,26 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
-    @GetMapping("/all")
+
+    @GetMapping
     public Page<Cliente> getCliente(@RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "10") int size,
                                     @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.getAllClienteList(page, size, sortBy);
     }
 
-    @GetMapping
-    public Page<Cliente> getClienti(@RequestParam(required = false) Double fatturatoMinimo,
-                                    @RequestParam(required = false) LocalDate dataInserimento,
-                                    @RequestParam(required = false) LocalDate dataUltimoContatto,
-                                    @RequestParam(required = false) String parteDelNome,
-                                    @RequestParam(required = false) String nomeContatto,
-                                    @RequestParam(required = false) String cognomeContatto,
-                                    @RequestParam(defaultValue = "0") int page,
-                                    @RequestParam(defaultValue = "10") int size
+    @GetMapping("/cerca")
+    public Page<Cliente> searchClientes(@RequestParam(required = false) Double fatturatoMinimo,
+                                        @RequestParam(required = false) LocalDate dataInserimento,
+                                        @RequestParam(required = false) LocalDate dataUltimoContatto,
+                                        @RequestParam(required = false) String parteDelNome,
+                                        @RequestParam(required = false) String nomeContatto,
+                                        @RequestParam(required = false) String cognomeContatto,
+                                        @RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "10") int size
     ) {
-        Pageable pageable = PageRequest.of(page, size);
-        return clienteService.filtraClienti(fatturatoMinimo, dataInserimento, dataUltimoContatto, parteDelNome, nomeContatto, cognomeContatto, pageable);
+        Pageable pageable = PageRequest.of(page, size, Sort.by("dataInserimento").descending());
+        return clienteService.findByCriteria(fatturatoMinimo, dataInserimento, dataUltimoContatto, parteDelNome, nomeContatto, cognomeContatto, pageable);
     }
 
 

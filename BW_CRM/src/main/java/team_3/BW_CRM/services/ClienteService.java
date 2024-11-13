@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import team_3.BW_CRM.entities.Cliente;
+import team_3.BW_CRM.entities.ClienteSpecifications;
 import team_3.BW_CRM.exceptions.BadRequestException;
 import team_3.BW_CRM.exceptions.NotFoundException;
 import team_3.BW_CRM.payloads.ClienteDTO;
@@ -30,10 +31,13 @@ public class ClienteService {
         return this.clienteRepository.findById(id).orElseThrow(() -> new NotFoundException("Nessun utente trovato!"));
     }
 
-    public Page<Cliente> filtraClienti(Double fatturatoMinimo, LocalDate dataInserimento, LocalDate dataUltimoContatto, String parteDelNome, String nomeContatto, String cognomeContatto, Pageable pageable) {
-        return clienteRepository.findClienti(fatturatoMinimo, dataInserimento, dataUltimoContatto, parteDelNome, nomeContatto, cognomeContatto, pageable);
+    public Page<Cliente> findByCriteria(Double fatturatoMinimo, LocalDate dataInserimento, LocalDate dataUltimoContatto,
+                                        String parteDelNome, String nomeContatto, String cognomeContatto, Pageable pageable) {
+        return clienteRepository.findAll(
+                ClienteSpecifications.withCriteria(fatturatoMinimo, dataInserimento, dataUltimoContatto, parteDelNome, nomeContatto, cognomeContatto),
+                pageable
+        );
     }
-
 
     public Cliente save(ClienteDTO body) {
         this.clienteRepository.findByEmail(body.email()).ifPresent(
