@@ -33,6 +33,18 @@ public class FatturaController {
         return this.fatturaService.findAll(page, size, sortBy);
     }
 
+    @GetMapping("/clienti/{id}/fatture")
+    public Page<Fattura> getFattureByIdCliente(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return this.fatturaService.findByIdCliente(id, pageable);
+    }
+
+
     @GetMapping("/data")
     public Page<Fattura> getFattureByData(
             @RequestParam LocalDate data,
