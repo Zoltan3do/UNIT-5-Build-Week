@@ -39,7 +39,7 @@ public class ComuneService {
     }
 
     public Optional<Comune> findComuneByNome(String nome) {
-        if(cr.findByNome(nome).isEmpty()){
+        if (cr.findByNome(nome).isEmpty()) {
             throw new NotFoundException("COmune non trovato");
         }
         return cr.findByNome(nome);
@@ -51,10 +51,13 @@ public class ComuneService {
             String linea;
             br.readLine();
             linea = br.readLine();
+            String codiceProvinciaCorrente = "";
+            int progressivo = 1;
+
             while (linea != null) {
                 String[] colonne = linea.split(";");
                 if (colonne.length < 4) {
-                    log.warn("Riga non valida: "+ linea);
+                    log.warn("Riga non valida: " + linea);
                     linea = br.readLine();
                     continue;
                 }
@@ -64,12 +67,27 @@ public class ComuneService {
                 String nomeComune = colonne[2].trim();
                 String nomeProvincia = colonne[3].trim();
 
+                if (!codProvincia.equals(codiceProvinciaCorrente)) {
+                    codiceProvinciaCorrente = codProvincia;
+                    progressivo = 1;
+                }
+
+                if (codComune.equals("#RIF!")) {
+                    if (progressivo < 10) {
+                        codComune = "00" + progressivo;
+                    } else if (progressivo < 100) {
+                        codComune = "0" + progressivo;
+                    }
+                }
+
+                progressivo++;
+
                 ComuneDTO comuneDTO = new ComuneDTO(codProvincia, codComune, nomeComune, nomeProvincia);
 
                 Set<ConstraintViolation<ComuneDTO>> violations = validator.validate(comuneDTO);
                 if (!violations.isEmpty()) {
                     for (ConstraintViolation<ComuneDTO> violation : violations) {
-                        log.warn("Errore di validazione per il comune " + nomeComune+ " " + violation.getMessage());
+                        log.warn("Errore di validazione per il comune " + nomeComune + " " + violation.getMessage());
                     }
                     linea = br.readLine();
                     continue;
@@ -86,7 +104,6 @@ public class ComuneService {
             log.error("Errore durante l'estrazione dei comuni dal CSV", e);
         }
     }
-
 
 
 }
