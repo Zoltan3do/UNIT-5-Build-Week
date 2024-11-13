@@ -64,7 +64,6 @@ public class ProvinciaService {
         return provincia;
     }
 
-
     public void estrazioneProvinceCsv(String path) throws IOException {
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
@@ -92,7 +91,7 @@ public class ProvinciaService {
         } catch (Exception e) {
             log.error(String.valueOf(e.getCause()));
         }
-    }
+}
 
 
 }

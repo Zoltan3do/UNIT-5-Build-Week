@@ -9,7 +9,6 @@ import team_3.BW_CRM.entities.Comune;
 import team_3.BW_CRM.entities.Provincia;
 import team_3.BW_CRM.exceptions.NotFoundException;
 import team_3.BW_CRM.payloads.ComuneDTO;
-import team_3.BW_CRM.payloads.ProvinciaDTO;
 import team_3.BW_CRM.repositories.ComuneRepository;
 
 import java.io.BufferedReader;
@@ -39,6 +38,13 @@ public class ComuneService {
         return this.cr.save(new Comune(body.codProvincia(), body.codComune(), body.nome(), p.get()));
     }
 
+    public Optional<Comune> findComuneByNome(String nome) {
+        if(cr.findByNome(nome).isEmpty()){
+            throw new NotFoundException("COmune non trovato");
+        }
+        return cr.findByNome(nome);
+    }
+
     public void estrazioneComuniCsv(String path) throws IOException {
         try {
             BufferedReader br = new BufferedReader(new FileReader(path));
@@ -63,7 +69,7 @@ public class ComuneService {
                 Set<ConstraintViolation<ComuneDTO>> violations = validator.validate(comuneDTO);
                 if (!violations.isEmpty()) {
                     for (ConstraintViolation<ComuneDTO> violation : violations) {
-                        log.warn("Errore di validazione per il comune "+ nomeComune+ " "+ violation.getMessage());
+                        log.warn("Errore di validazione per il comune " + nomeComune+ " " + violation.getMessage());
                     }
                     linea = br.readLine();
                     continue;
@@ -72,7 +78,7 @@ public class ComuneService {
                 Optional<Provincia> provincia = ps.findByNome(nomeProvincia);
                 if (provincia.isPresent()) {
                     this.save(comuneDTO);
-                    log.info("Comune "+ nomeComune+" salvato con successo.");
+                    log.info("Comune " + nomeComune + " salvato con successo.");
                 }
                 linea = br.readLine();
             }
