@@ -13,6 +13,7 @@ import team_3.BW_CRM.exceptions.NotFoundException;
 import team_3.BW_CRM.payloads.NewFatturaDTO;
 import team_3.BW_CRM.repositories.ClienteRepository;
 import team_3.BW_CRM.repositories.FatturaRepository;
+import team_3.BW_CRM.tools.MailgunSender;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -26,29 +27,33 @@ public class FatturaService {
     @Autowired
     ClienteRepository clienteRepository;
 
-
+    @Autowired
+    MailgunSender mailgunSender;
 
     public Fattura createFattura(NewFatturaDTO body) {
 
-     if(fatturaRepository.existsByNumero(body.numero())) {
-         throw new BadRequestException("Numero fattura " + body.numero() + " già in uso!");
-     }
+        if (fatturaRepository.existsByNumero(body.numero())) {
+            throw new BadRequestException("Numero fattura " + body.numero() + " già in uso!");
+        }
 
-     Optional<Cliente> clienteFound = clienteRepository.findById(body.clienteId().getId());
+        Optional<Cliente> clienteFound = clienteRepository.findById(body.clienteId().getId());
 
-     if (clienteFound.isEmpty()) {
-         throw new NotFoundException("Cliente non trovato!");
-     }
+        if (clienteFound.isEmpty()) {
+            throw new NotFoundException("Cliente non trovato!");
+        }
 
-     Fattura fattura = new Fattura(
-             body.data(),
-             body.numero(),
-             body.importo(),
-             clienteFound.get()
-     );
+        Fattura fattura = new Fattura(
+                body.data(),
+                body.numero(),
+                body.importo(),
+                clienteFound.get()
+        );
 
-     return fatturaRepository.save(fattura);
+        Fattura savedFattura = fatturaRepository.save(fattura);
 
+        mailgunSender.sendFatturaEmail(savedFattura);
+
+        return savedFattura;
     }
 
     public Fattura findById(Long id) {

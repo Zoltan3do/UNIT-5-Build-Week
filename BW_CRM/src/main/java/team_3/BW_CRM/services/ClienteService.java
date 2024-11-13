@@ -12,6 +12,7 @@ import team_3.BW_CRM.exceptions.BadRequestException;
 import team_3.BW_CRM.exceptions.NotFoundException;
 import team_3.BW_CRM.payloads.ClienteDTO;
 import team_3.BW_CRM.repositories.ClienteRepository;
+import team_3.BW_CRM.tools.MailgunSender;
 
 import java.util.List;
 
@@ -19,6 +20,16 @@ import java.util.List;
 public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private MailgunSender mailgunSender;
+
+    public void sendEmailToCliente(Long clienteId, String subject, String message) {
+        Cliente cliente = clienteRepository.findById(clienteId)
+                .orElseThrow(() -> new NotFoundException("Cliente non trovato con ID: " + clienteId));
+
+        mailgunSender.sendCustomEmailToCliente(cliente, subject, message);
+    }
 
     public Page<Cliente> getAllClienteList(int page, int size, String sortBy) {
         if (size > 10) size = 10;

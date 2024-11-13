@@ -5,8 +5,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66f5956a-30e8-4907-8c94-5e5bc4a001f2" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/BW_CRM/src/main/java/team_3/BW_CRM/tools/MailgunSender.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BW_CRM/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/BW_CRM/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BW_CRM/src/main/java/team_3/BW_CRM/controllers/ClienteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/BW_CRM/src/main/java/team_3/BW_CRM/controllers/ClienteController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/BW_CRM/src/main/java/team_3/BW_CRM/services/ClienteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BW_CRM/src/main/java/team_3/BW_CRM/services/ClienteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BW_CRM/src/main/java/team_3/BW_CRM/services/FatturaService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BW_CRM/src/main/java/team_3/BW_CRM/services/FatturaService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BW_CRM/src/main/java/team_3/BW_CRM/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BW_CRM/src/main/java/team_3/BW_CRM/services/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BW_CRM/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/BW_CRM/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -18,15 +24,15 @@
       <list>
         <option value="Enum" />
         <option value="Exception" />
-        <option value="Class" />
         <option value="Record" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="cliente-branch" />
+        <entry key="$PROJECT_DIR$" value="utente-branch" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -37,12 +43,12 @@
     &quot;assignee&quot;: &quot;marcozaga96&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings">{
-  &quot;selectedUrlAndAccountId&quot;: {
-    &quot;url&quot;: &quot;https://github.com/Zoltan3do/UNIT-5-Build-Week.git&quot;,
-    &quot;accountId&quot;: &quot;7f58be63-5897-456b-a250-bfdcc9ba5cfc&quot;
+  <component name="GithubPullRequestsUISettings"><![CDATA[{
+  "selectedUrlAndAccountId": {
+    "url": "https://github.com/Zoltan3do/UNIT-5-Build-Week.git",
+    "accountId": "016c5ebb-efb1-4d91-a76f-267286905791"
   }
-}</component>
+}]]></component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -51,20 +57,19 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.BwCrmApplication.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;dev&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/marco/Desktop/corso epicode/back-end/unità 2/settimana 3/UNIT-5-Build-Week/BW_CRM&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;rearrange.code.on.save&quot;: &quot;true&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;actions.on.save&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.BwCrmApplication.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "mail__gunner",
+    "kotlin-language-version-configured": "true",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "rearrange.code.on.save": "true",
+    "settings.editor.selected.configurable": "actions.on.save"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration default="true" type="JetRunConfigurationType">
       <module name="UNIT-5-Build-Week" />
