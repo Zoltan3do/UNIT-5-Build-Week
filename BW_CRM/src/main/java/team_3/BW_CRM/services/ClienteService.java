@@ -1,17 +1,30 @@
 package team_3.BW_CRM.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import team_3.BW_CRM.entities.Cliente;
+import team_3.BW_CRM.entities.Utente;
 import team_3.BW_CRM.exceptions.BadRequestException;
 import team_3.BW_CRM.exceptions.NotFoundException;
 import team_3.BW_CRM.payloads.ClienteDTO;
 import team_3.BW_CRM.repositories.ClienteRepository;
 
+import java.util.List;
+
 @Service
 public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
+
+    public Page<Cliente> getAllClienteList(int page, int size, String sortBy) {
+        if (size > 10) size = 10;
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+        return clienteRepository.findAll(pageable);
+    }
 
 
     public Cliente findById(long id) {

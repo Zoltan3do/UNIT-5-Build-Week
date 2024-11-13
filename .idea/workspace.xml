@@ -5,7 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="66f5956a-30e8-4907-8c94-5e5bc4a001f2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/BW_CRM/src/main/java/team_3/BW_CRM/repositories/ClienteRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/BW_CRM/src/main/java/team_3/BW_CRM/repositories/ClienteRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/BW_CRM/src/main/java/team_3/BW_CRM/services/ClienteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/BW_CRM/src/main/java/team_3/BW_CRM/services/ClienteService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,12 +37,12 @@
     &quot;assignee&quot;: &quot;marcozaga96&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/Zoltan3do/UNIT-5-Build-Week.git",
-    "accountId": "477da8c3-00cc-4392-abdf-68b2ffcd3379"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Zoltan3do/UNIT-5-Build-Week.git&quot;,
+    &quot;accountId&quot;: &quot;7f58be63-5897-456b-a250-bfdcc9ba5cfc&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>

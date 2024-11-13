@@ -1,6 +1,7 @@
 package team_3.BW_CRM.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +18,13 @@ import java.util.stream.Collectors;
 public class ClienteController {
     @Autowired
     private ClienteService clienteService;
+
+    @GetMapping
+    public Page<Cliente> getCliente(@RequestParam(defaultValue = "0") int page,
+                                    @RequestParam(defaultValue = "10") int size,
+                                    @RequestParam(defaultValue = "id") String sortBy) {
+        return clienteService.getAllClienteList(page, size, sortBy);
+    }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
