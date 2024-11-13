@@ -44,7 +44,7 @@ public class IndirizzoService {
         indirizzo1.setCivico(body.civico());
         indirizzo1.setVia(body.via());
         indirizzo1.setLocalita(body.localita());
-        indirizzo1.setComune(cs.findComuneByNome(body.comune().nome()));
+        indirizzo1.setComune(cs.findComuneByNome(body.comune().nome()).orElseThrow(RuntimeException::new));
         return ir.save(indirizzo1);
     }
 
