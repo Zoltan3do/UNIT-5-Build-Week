@@ -23,16 +23,16 @@ public class Fattura {
     @JoinColumn(name = "cliente_id")
     private Cliente cliente;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "stato_fattura_id")
     private StatoFattura statoFattura;
 
-    public Fattura(LocalDate data, int numero, double importo, Cliente cliente) {
+    public Fattura(LocalDate data, int numero, double importo, Cliente cliente, StatoFattura statoFattura) {
         this.data = data;
         this.numero = numero;
         this.importo = importo;
         this.cliente = cliente;
-        this.statoFattura = new StatoFattura("EMESSA");
+        this.statoFattura = statoFattura;
     }
 
     public Long getId() {

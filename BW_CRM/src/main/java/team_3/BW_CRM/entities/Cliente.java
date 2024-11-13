@@ -1,5 +1,6 @@
 package team_3.BW_CRM.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -45,6 +46,7 @@ public class Cliente {
     private Indirizzo sedeOperativa;
 
     @OneToMany(mappedBy = "cliente")
+    @JsonIgnore
     private List<Fattura> fatture;
 
     public Cliente(String ragioneSociale,

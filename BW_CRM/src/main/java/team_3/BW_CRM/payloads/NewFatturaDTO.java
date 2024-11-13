@@ -18,10 +18,10 @@ public record NewFatturaDTO(
         Integer numero,
 
         @NotNull(message = "Il cliente è obbligatorio!")
-        Cliente clienteId,
+        Long clienteId,
 
         @NotNull(message = "Lo stato fattura è obbligatorio!")
-        StatoFattura statoFattura
+        String statoFattura
 ) {
 
 }

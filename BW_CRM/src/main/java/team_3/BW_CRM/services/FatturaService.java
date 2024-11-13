@@ -5,14 +5,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import team_3.BW_CRM.entities.Cliente;
 import team_3.BW_CRM.entities.Fattura;
+import team_3.BW_CRM.entities.FatturaSpecifications;
+import team_3.BW_CRM.entities.StatoFattura;
 import team_3.BW_CRM.exceptions.BadRequestException;
 import team_3.BW_CRM.exceptions.NotFoundException;
 import team_3.BW_CRM.payloads.NewFatturaDTO;
 import team_3.BW_CRM.repositories.ClienteRepository;
 import team_3.BW_CRM.repositories.FatturaRepository;
+import team_3.BW_CRM.repositories.StatoFatturaRepository;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -26,30 +30,60 @@ public class FatturaService {
     @Autowired
     ClienteRepository clienteRepository;
 
+    @Autowired
+    StatoFatturaRepository statoFatturaRepository;
 
+    public Page<Fattura> findWithFilters(Long clienteId, LocalDate data, Integer anno, Double minImporto, Double maxImporto, Pageable pageable) {
+        Specification<Fattura> specs = Specification.where(null);
+
+        if (clienteId != null) {
+            specs = specs.and(FatturaSpecifications.hasClienteId(clienteId));
+        }
+        if (data != null) {
+            specs = specs.and(FatturaSpecifications.hasData(data));
+        }
+        if (anno != null) {
+            specs = specs.and(FatturaSpecifications.hasAnno(anno));
+        }
+        if (minImporto != null) {
+            specs = specs.and(FatturaSpecifications.hasMinImporto(minImporto));
+        }
+        if (maxImporto != null) {
+            specs = specs.and(FatturaSpecifications.hasMaxImporto(maxImporto));
+        }
+
+        return fatturaRepository.findAll(specs, pageable);
+    }
 
     public Fattura createFattura(NewFatturaDTO body) {
+        if (fatturaRepository.existsByNumero(body.numero())) {
+            throw new BadRequestException("Numero fattura " + body.numero() + " già in uso!");
+        }
 
-     if(fatturaRepository.existsByNumero(body.numero())) {
-         throw new BadRequestException("Numero fattura " + body.numero() + " già in uso!");
-     }
+        Optional<Cliente> clienteFound = clienteRepository.findById(body.clienteId());
+        if (clienteFound.isEmpty()) {
+            throw new NotFoundException("Cliente non trovato!");
+        }
 
-     Optional<Cliente> clienteFound = clienteRepository.findById(body.clienteId().getId());
+        Optional<StatoFattura> statoFatturaOpt = statoFatturaRepository.findByTipo("EMESSA");
+        if (statoFatturaOpt.isEmpty()) {
+            statoFatturaOpt = Optional.of(statoFatturaRepository.save(new StatoFattura("EMESSA")));
+        }
 
-     if (clienteFound.isEmpty()) {
-         throw new NotFoundException("Cliente non trovato!");
-     }
 
-     Fattura fattura = new Fattura(
-             body.data(),
-             body.numero(),
-             body.importo(),
-             clienteFound.get()
-     );
+        Fattura fattura = new Fattura(
+                body.data(),
+                body.numero(),
+                body.importo(),
+                clienteFound.get(),
+                statoFatturaOpt.get()
+        );
 
-     return fatturaRepository.save(fattura);
-
+        return fatturaRepository.save(fattura);
     }
+
+
+
 
     public Fattura findById(Long id) {
         return fatturaRepository.findById(id).orElseThrow(() -> new NotFoundException("Nessuna fattura trovata con questo ID: " + id));
@@ -65,8 +99,12 @@ public class FatturaService {
             fattura.setData(body.data());
         }
 
-        if(!body.clienteId().equals(fattura.getCliente().getId())) {
-            fattura.setCliente(body.clienteId());
+        if (!body.clienteId().equals(fattura.getCliente().getId())) {
+            Optional<Cliente> clienteFound = clienteRepository.findById(body.clienteId());
+            if (clienteFound.isEmpty()) {
+                throw new NotFoundException("Cliente non trovato!");
+            }
+            fattura.setCliente(clienteFound.get());
         }
 
         if(!body.importo().equals(fattura.getImporto())) {
@@ -81,8 +119,12 @@ public class FatturaService {
             fattura.setNumero(body.numero());
         }
 
-        if(!body.statoFattura().equals(fattura.getStatoFattura())) {
-            fattura.setStatoFattura(body.statoFattura());
+        if (!body.statoFattura().equals(fattura.getStatoFattura().getTipo())) {
+            Optional<StatoFattura> statoFatturaFound = statoFatturaRepository.findByTipo(body.statoFattura());
+            if (statoFatturaFound.isEmpty()) {
+                throw new NotFoundException("Stato fattura non trovato!");
+            }
+            fattura.setStatoFattura(statoFatturaFound.get());
         }
 
         return fatturaRepository.save(fattura);
@@ -99,7 +141,7 @@ public class FatturaService {
         }
 
         if (!body.clienteId().equals(fattura.getCliente().getId())) {
-            Cliente cliente = clienteRepository.findById(body.clienteId().getId())
+            Cliente cliente = clienteRepository.findById(body.clienteId())
                     .orElseThrow(() -> new NotFoundException("Cliente non trovato con id " + body.clienteId()));
             fattura.setCliente(cliente);
         }
@@ -116,8 +158,12 @@ public class FatturaService {
             fattura.setNumero(body.numero());
         }
 
-        if(!body.statoFattura().equals(fattura.getStatoFattura())) {
-            fattura.setStatoFattura(body.statoFattura());
+        if (!body.statoFattura().equals(fattura.getStatoFattura().getTipo())) {
+            Optional<StatoFattura> statoFatturaFound = statoFatturaRepository.findByTipo(body.statoFattura());
+            if (statoFatturaFound.isEmpty()) {
+                throw new NotFoundException("Stato fattura non trovato!");
+            }
+            fattura.setStatoFattura(statoFatturaFound.get());
         }
 
         return fatturaRepository.save(fattura);

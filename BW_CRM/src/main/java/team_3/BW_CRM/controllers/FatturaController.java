@@ -25,6 +25,26 @@ public class FatturaController {
     @Autowired
     private FatturaService fatturaService;
 
+
+    @GetMapping
+    public Page<Fattura> getFatture(
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size,
+            @RequestParam(defaultValue = "id") String sortBy,
+            @RequestParam(required = false) Long clienteId,
+            @RequestParam(required = false) LocalDate data,
+            @RequestParam(required = false) Integer anno,
+            @RequestParam(required = false) Double minImporto,
+            @RequestParam(required = false) Double maxImporto) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by(sortBy));
+
+        return fatturaService.findWithFilters(clienteId, data, anno, minImporto, maxImporto, pageable);
+    }
+
+
+
+/*
     @GetMapping
     public Page<Fattura> getFatture(
             @RequestParam(defaultValue = "0") int page,
@@ -32,6 +52,8 @@ public class FatturaController {
             @RequestParam(defaultValue = "id") String sortBy) {
         return this.fatturaService.findAll(page, size, sortBy);
     }
+
+ */
 
     @GetMapping("/clienti/{id}/fatture")
     public Page<Fattura> getFattureByIdCliente(
@@ -99,7 +121,7 @@ public class FatturaController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    @PreAuthorize("hasAuthority('ADMIN')")
+
     public Fattura saveFattura(@RequestBody @Validated NewFatturaDTO body, BindingResult validationResult){
         if(validationResult.hasErrors()){
             String message = validationResult.getAllErrors().stream().map(error -> error.getDefaultMessage()).collect(Collectors.joining(". "));
