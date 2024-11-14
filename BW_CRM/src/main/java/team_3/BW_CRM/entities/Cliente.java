@@ -78,7 +78,7 @@ public class Cliente {
 
     public void aggiungiFattura(Fattura fattura) {
         this.fatture.add(fattura);
-        this.fatturatoAnnuale += fattura.getImporto();
+        this.fatturatoAnnuale = (this.fatturatoAnnuale == null ? 0 : this.fatturatoAnnuale) + fattura.getImporto();
         this.dataUltimoContatto = fattura.getData();
     }
 

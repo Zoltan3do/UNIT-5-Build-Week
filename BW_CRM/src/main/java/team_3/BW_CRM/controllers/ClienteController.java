@@ -31,6 +31,11 @@ public class ClienteController {
         return clienteService.getAllClienteList(page, size, sortBy);
     }
 
+    @GetMapping("/{id}")
+    public Cliente getClienteById(@PathVariable Long id) {
+        return clienteService.findById(id);
+    }
+
     @GetMapping("/cerca")
     public Page<Cliente> searchClientes(@RequestParam(required = false) Double fatturatoMinimo,
                                         @RequestParam(required = false) LocalDate dataInserimento,

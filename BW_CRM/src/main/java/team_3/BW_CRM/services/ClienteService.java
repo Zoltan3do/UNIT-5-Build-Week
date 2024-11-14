@@ -12,6 +12,7 @@ import team_3.BW_CRM.exceptions.BadRequestException;
 import team_3.BW_CRM.exceptions.NotFoundException;
 import team_3.BW_CRM.payloads.ClienteDTO;
 import team_3.BW_CRM.repositories.ClienteRepository;
+import team_3.BW_CRM.repositories.FatturaRepository;
 
 import java.time.LocalDate;
 
@@ -19,6 +20,8 @@ import java.time.LocalDate;
 public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private FatturaRepository fatturaRepository;
 
     public Page<Cliente> getAllClienteList(int page, int size, String sortBy) {
         if (size > 10) size = 10;
@@ -38,6 +41,7 @@ public class ClienteService {
                 pageable
         );
     }
+
 
     public Cliente save(ClienteDTO body) {
         this.clienteRepository.findByEmail(body.email()).ifPresent(
