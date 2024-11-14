@@ -20,8 +20,8 @@ public class TablesPopulationRunner implements CommandLineRunner {
         String pathComuni = "src/main/resources/comuni & province/comuni-italiani.csv";
 
 
-        ps.estrazioneProvinceCsv(pathProvince);
-        cs.estrazioneComuniCsv(pathComuni);
+//        ps.estrazioneProvinceCsv(pathProvince);
+//        cs.estrazioneComuniCsv(pathComuni);
 
 
     }

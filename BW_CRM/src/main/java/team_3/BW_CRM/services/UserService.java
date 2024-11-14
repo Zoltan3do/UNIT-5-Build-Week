@@ -71,20 +71,18 @@ public class UserService {
         return savedUser;
     }
 
-    public String uploadFotoProfilo(MultipartFile file, Long idUtente) {
+    public String uploadAvatar(MultipartFile file, Long idUtente) {
+        String url = null;
         try {
-            String url = (String) cloudinaryUploader.uploader()
-                    .upload(file.getBytes(), ObjectUtils.emptyMap())
-                    .get("url");
-            Utente found = this.findById(idUtente);
-            found.setAvatar(url);
-            userRepository.save(found);
-            return url;
-        } catch (java.io.IOException e) {
-            throw new BadRequestException("Errore durante l'upload dell'immagine!");
+            url = (String) cloudinaryUploader.uploader().upload(file.getBytes(), ObjectUtils.emptyMap()).get("url");
+        } catch (IOException e) {
+            throw new BadRequestException("Ci sono stati problemi con l'upload del file!");
         }
+        Utente found = this.findById(idUtente);
+        found.setAvatar(url);
+        userRepository.save(found);
+        return url;
     }
-
 
     public void assignRoleToUser(Long userId, String tipoRuolo) {
         Utente utente = userRepository.findById(userId)
