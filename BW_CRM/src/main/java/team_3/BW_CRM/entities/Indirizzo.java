@@ -1,5 +1,6 @@
 package team_3.BW_CRM.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,6 +19,7 @@ public class Indirizzo {
     private String cap;
 
     @OneToOne(mappedBy = "sedeLegale")
+    @JsonIgnore
     private Cliente cliente;
 
     @ManyToOne
@@ -33,8 +35,6 @@ public class Indirizzo {
         this.cap = cap;
         this.comune = comune;
     }
-
-
 
     public long getId() {
         return id;

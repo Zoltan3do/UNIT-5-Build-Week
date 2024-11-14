@@ -72,7 +72,7 @@ public class ClienteController {
     }
 
     @PatchMapping("/{clienteId}/logo")
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public String addLogo(@PathVariable("clienteId") Long clienteId, @RequestParam("logo") MultipartFile file){
         return this.clienteService.uploadLogoAziendale( file, clienteId);
     }

@@ -30,7 +30,6 @@ public class UserService {
     @Autowired
     private RuoloRepository ruoloRepository;
 
-
     @Autowired
     private MailgunSender mailgunSender;
 

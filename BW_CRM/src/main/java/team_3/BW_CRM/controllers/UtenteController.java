@@ -81,7 +81,7 @@ public class UtenteController {
     }
 
     @PatchMapping("/{utenteId}/avatar")
-    @PreAuthorize("hasAuthority('ADMIN')")
+//    @PreAuthorize("hasAuthority('ADMIN')")
     public String addLogo(@PathVariable("utenteId") Long utenteId, @RequestParam("avatar") MultipartFile file){
         return this.userService.uploadAvatar( file, utenteId);
     }
