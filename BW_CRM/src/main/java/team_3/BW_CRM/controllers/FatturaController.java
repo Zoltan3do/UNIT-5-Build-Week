@@ -41,7 +41,7 @@ public class FatturaController {
 
         return fatturaService.findWithFilters(clienteId, data, anno, minImporto, maxImporto, pageable);
     }
-    
+
 
     @GetMapping("/clienti/{id}/fatture")
     public Page<Fattura> getFattureByIdCliente(

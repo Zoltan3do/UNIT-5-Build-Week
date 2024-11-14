@@ -40,15 +40,17 @@ public class FatturaService {
     public Page<Fattura> findWithFilters(Long clienteId, LocalDate data, Integer anno, Double minImporto, Double maxImporto, Pageable pageable) {
         Specification<Fattura> specs = Specification.where(null);
 
+        if (anno != null) {
+            return this.findByYear(anno, pageable);
+        }
+
         if (clienteId != null) {
             specs = specs.and(FatturaSpecifications.hasClienteId(clienteId));
         }
         if (data != null) {
             specs = specs.and(FatturaSpecifications.hasData(data));
         }
-        if (anno != null) {
-            specs = specs.and(FatturaSpecifications.hasAnno(anno));
-        }
+
         if (minImporto != null) {
             specs = specs.and(FatturaSpecifications.hasMinImporto(minImporto));
         }

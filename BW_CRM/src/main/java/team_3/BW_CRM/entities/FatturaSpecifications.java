@@ -18,8 +18,8 @@ public class FatturaSpecifications {
 
     public static Specification<Fattura> hasAnno(Integer anno) {
         return (root, query, cb) -> {
-            // Assumendo che "data" sia di tipo java.util.Date o java.time.LocalDate
-            Expression<Integer> year = cb.function("year", Integer.class, root.get("data"));
+            // Utilizzare EXTRACT(YEAR FROM data)
+            Expression<Integer> year = cb.function("EXTRACT", Integer.class, cb.literal("YEAR FROM"), root.get("data"));
             return cb.equal(year, anno);
         };
     }
