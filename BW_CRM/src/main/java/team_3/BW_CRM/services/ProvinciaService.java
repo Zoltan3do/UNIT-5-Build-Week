@@ -33,7 +33,7 @@ public class ProvinciaService {
         return this.pr.save(newProvince);
     }
 
-    public Optional<Provincia> findProvinciaById(Long id){
+    public Optional<Provincia> findProvinciaById(Long id) {
         return pr.findById(id);
     }
 
@@ -64,33 +64,31 @@ public class ProvinciaService {
         return provincia;
     }
 
-
     public void estrazioneProvinceCsv(String path) throws IOException {
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(path));
-            String linea;
-            br.readLine();
-            linea = br.readLine();
-            while (linea != null) {
-                String[] colonne = linea.split(";");
-                if (colonne.length < 3) {
-                    System.out.println(("Riga non valida"));
-                    continue;
-                }
-                String sigla = colonne[0].trim();
-                String nome = colonne[1].trim();
-                String regione = colonne[2].trim();
-
-                ProvinciaDTO provincia = new ProvinciaDTO(sigla, nome, regione);
-                Set<ConstraintViolation<ProvinciaDTO>> violations = validator.validate(provincia);
-                if (!violations.isEmpty()) {
-                    continue;
-                }
-                this.save(provincia);
+        BufferedReader br = new BufferedReader(new FileReader(path));
+        String linea;
+        br.readLine();
+        linea = br.readLine();
+        while (linea != null) {
+            String[] colonne = linea.split(";");
+            if (colonne.length < 3) {
+                System.out.println(("Riga non valida"));
                 linea = br.readLine();
+                continue;
             }
-        } catch (Exception e) {
-            log.error(String.valueOf(e.getCause()));
+            String sigla = colonne[0].trim();
+            String nome = colonne[1].trim();
+            String regione = colonne[2].trim();
+
+            ProvinciaDTO provincia = new ProvinciaDTO(sigla, nome, regione);
+            Set<ConstraintViolation<ProvinciaDTO>> violations = validator.validate(provincia);
+            if (!violations.isEmpty()) {
+                System.out.println("Riga invalida");
+                linea = br.readLine();
+                continue;
+            }
+            this.save(provincia);
+            linea = br.readLine();
         }
     }
 
