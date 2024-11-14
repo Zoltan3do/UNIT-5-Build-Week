@@ -41,19 +41,7 @@ public class FatturaController {
 
         return fatturaService.findWithFilters(clienteId, data, anno, minImporto, maxImporto, pageable);
     }
-
-
-
-/*
-    @GetMapping
-    public Page<Fattura> getFatture(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "10") int size,
-            @RequestParam(defaultValue = "id") String sortBy) {
-        return this.fatturaService.findAll(page, size, sortBy);
-    }
-
- */
+    
 
     @GetMapping("/clienti/{id}/fatture")
     public Page<Fattura> getFattureByIdCliente(
@@ -94,7 +82,7 @@ public class FatturaController {
     }
 
 
-    @PutMapping("/{fatturaNumero}")
+    @PutMapping("/num/{fatturaNumero}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Fattura findFatturaByNumeroAndUpdate(
             @PathVariable Integer fatturaNumero,
@@ -110,13 +98,14 @@ public class FatturaController {
 
         return fatturaService.findByNumeroAndUpdate(fatturaNumero, body);
     }
-//
-//    @DeleteMapping("/{fatturaNumero}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    public void findFatturaByNumeroAndDelete(@PathVariable Integer numero) {
-//        this.fatturaService.findByNumeroAndDelete(numero);
-//    }
+
+
+   @DeleteMapping("/num/{fatturaNumero}")
+   @ResponseStatus(HttpStatus.NO_CONTENT)
+   @PreAuthorize("hasAuthority('ADMIN')")
+   public void findFatturaByNumeroAndDelete(@PathVariable Integer numero) {
+        this.fatturaService.findByNumeroAndDelete(numero);
+   }
 
 
     @PostMapping
@@ -135,7 +124,7 @@ public class FatturaController {
         return this.fatturaService.findById(fatturaId);
     }
 
-    @PutMapping("/{fatturaId}")
+    @PutMapping("/id/{fatturaId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     public Fattura findByIdAndUpdate(
             @PathVariable Long fatturaId,
@@ -147,7 +136,7 @@ public class FatturaController {
         return this.fatturaService.findByIdAndUpdate(fatturaId, body);
     }
 
-    @DeleteMapping("/{fatturaId}")
+    @DeleteMapping("/id/{fatturaId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void findByIdAndDelete(@PathVariable Long fatturaId) {

@@ -79,7 +79,6 @@ public class FatturaService {
             throw new BadRequestException("Numero fattura " + body.numero() + " già in uso!");
         }
 
-        Optional<Cliente> clienteFound = clienteRepository.findById(body.clienteId().getId());
 
         if (clienteFound.isEmpty()) {
             throw new NotFoundException("Cliente non trovato!");
@@ -94,10 +93,6 @@ public class FatturaService {
         );
         Cliente cliente = clienteFound.get();
         cliente.aggiungiFattura(fattura);
-
-        return fatturaRepository.save(fattura);
-                clienteFound.get()
-        );
 
         Fattura savedFattura = fatturaRepository.save(fattura);
 

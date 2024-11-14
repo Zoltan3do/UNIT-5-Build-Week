@@ -57,7 +57,7 @@ public class ComuneService {
             while (linea != null) {
                 String[] colonne = linea.split(";");
                 if (colonne.length < 4) {
-                    log.warn("Riga non valida: " + linea);
+                    System.out.println("Riga non valida: " + linea);
                     linea = br.readLine();
                     continue;
                 }
@@ -87,7 +87,7 @@ public class ComuneService {
                 Set<ConstraintViolation<ComuneDTO>> violations = validator.validate(comuneDTO);
                 if (!violations.isEmpty()) {
                     for (ConstraintViolation<ComuneDTO> violation : violations) {
-                        log.warn("Errore di validazione per il comune " + nomeComune + " " + violation.getMessage());
+                       System.out.println("Errore di validazione per il comune " + nomeComune + " " + violation.getMessage());
                     }
                     linea = br.readLine();
                     continue;
@@ -96,12 +96,12 @@ public class ComuneService {
                 Optional<Provincia> provincia = ps.findByNome(nomeProvincia);
                 if (provincia.isPresent()) {
                     this.save(comuneDTO);
-                    log.info("Comune " + nomeComune + " salvato con successo.");
+                    System.out.println("Comune " + nomeComune + " salvato con successo.");
                 }
                 linea = br.readLine();
             }
         } catch (Exception e) {
-            log.error("Errore durante l'estrazione dei comuni dal CSV", e);
+            System.out.println("L'errore è" + e);
         }
     }
 

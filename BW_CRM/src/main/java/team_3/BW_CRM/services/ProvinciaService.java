@@ -40,12 +40,12 @@ public class ProvinciaService {
 
     public Optional<Provincia> findBySigla(String sigla) {
         if (sigla == null || sigla.isEmpty()) {
-            log.error("La sigla non puo essere vuota");
+            System.out.println("La sigla non puo essere vuota");
             throw new IllegalArgumentException("La sigla non puo essere vuota");
         }
         Optional<Provincia> provincia = pr.findBySigla(sigla);
         if (provincia.isEmpty()) {
-            log.warn("Not found");
+            System.out.println("Not found");
             throw new NotFoundException("Provincia non trovata");
         }
         return provincia;
@@ -54,12 +54,12 @@ public class ProvinciaService {
 
     public Optional<Provincia> findByNome(String nome) {
         if (nome == null || nome.isEmpty()) {
-            log.error("Il nome non puo essere vuota");
+            System.out.println("Il nome non puo essere vuota");
             throw new IllegalArgumentException("Il nome non puo essere vuoto");
         }
         Optional<Provincia> provincia = pr.findByNome(nome);
         if (provincia.isEmpty()) {
-            log.warn("Not found!");
+            System.out.println("Not found!");
         }
         return provincia;
     }
