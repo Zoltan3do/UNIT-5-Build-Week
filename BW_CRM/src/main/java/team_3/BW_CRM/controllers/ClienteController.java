@@ -2,6 +2,9 @@ package team_3.BW_CRM.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -11,6 +14,7 @@ import team_3.BW_CRM.exceptions.BadRequestException;
 import team_3.BW_CRM.payloads.ClienteDTO;
 import team_3.BW_CRM.services.ClienteService;
 
+import java.time.LocalDate;
 import java.util.stream.Collectors;
 
 @RestController
@@ -19,12 +23,33 @@ public class ClienteController {
     @Autowired
     private ClienteService clienteService;
 
+
     @GetMapping
     public Page<Cliente> getCliente(@RequestParam(defaultValue = "0") int page,
                                     @RequestParam(defaultValue = "10") int size,
                                     @RequestParam(defaultValue = "id") String sortBy) {
         return clienteService.getAllClienteList(page, size, sortBy);
     }
+
+    @GetMapping("/{id}")
+    public Cliente getClienteById(@PathVariable Long id) {
+        return clienteService.findById(id);
+    }
+
+    @GetMapping("/cerca")
+    public Page<Cliente> searchClientes(@RequestParam(required = false) Double fatturatoMinimo,
+                                        @RequestParam(required = false) LocalDate dataInserimento,
+                                        @RequestParam(required = false) LocalDate dataUltimoContatto,
+                                        @RequestParam(required = false) String parteDelNome,
+                                        @RequestParam(required = false) String nomeContatto,
+                                        @RequestParam(required = false) String cognomeContatto,
+                                        @RequestParam(defaultValue = "0") int page,
+                                        @RequestParam(defaultValue = "10") int size
+    ) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by("dataInserimento").descending());
+        return clienteService.findByCriteria(fatturatoMinimo, dataInserimento, dataUltimoContatto, parteDelNome, nomeContatto, cognomeContatto, pageable);
+    }
+
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)

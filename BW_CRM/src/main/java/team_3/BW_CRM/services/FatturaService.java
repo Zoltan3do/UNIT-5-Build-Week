@@ -78,11 +78,11 @@ public class FatturaService {
                 clienteFound.get(),
                 statoFatturaOpt.get()
         );
+        Cliente cliente = clienteFound.get();
+        cliente.aggiungiFattura(fattura);
 
         return fatturaRepository.save(fattura);
     }
-
-
 
 
     public Fattura findById(Long id) {
@@ -91,11 +91,11 @@ public class FatturaService {
 
     public Fattura findByIdAndUpdate(Long id, NewFatturaDTO body) {
         Fattura fattura = this.findById(id);
-        if(body.data().isBefore(LocalDate.now())){
+        if (body.data().isBefore(LocalDate.now())) {
             throw new BadRequestException("Non puoi mettere una data passata a quella odierna!");
         }
 
-        if(!body.data().equals(fattura.getData())) {
+        if (!body.data().equals(fattura.getData())) {
             fattura.setData(body.data());
         }
 
@@ -107,7 +107,7 @@ public class FatturaService {
             fattura.setCliente(clienteFound.get());
         }
 
-        if(!body.importo().equals(fattura.getImporto())) {
+        if (!body.importo().equals(fattura.getImporto())) {
             fattura.setImporto(body.importo());
         }
 
@@ -132,11 +132,11 @@ public class FatturaService {
 
     public Fattura findByNumeroAndUpdate(Integer numero, NewFatturaDTO body) {
         Fattura fattura = fatturaRepository.findByNumero(numero).orElseThrow(() -> new NotFoundException("Nessuna fattura trovata con questo numero: " + numero));
-        if(body.data().isBefore(LocalDate.now())){
+        if (body.data().isBefore(LocalDate.now())) {
             throw new BadRequestException("Non puoi mettere una data passata a quella odierna!");
         }
 
-        if(!body.data().equals(fattura.getData())) {
+        if (!body.data().equals(fattura.getData())) {
             fattura.setData(body.data());
         }
 
@@ -146,7 +146,7 @@ public class FatturaService {
             fattura.setCliente(cliente);
         }
 
-        if(!body.importo().equals(fattura.getImporto())) {
+        if (!body.importo().equals(fattura.getImporto())) {
             fattura.setImporto(body.importo());
         }
 

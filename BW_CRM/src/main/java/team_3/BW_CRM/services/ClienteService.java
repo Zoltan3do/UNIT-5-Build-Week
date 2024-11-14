@@ -7,20 +7,23 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import team_3.BW_CRM.entities.Cliente;
+import team_3.BW_CRM.entities.ClienteSpecifications;
 import team_3.BW_CRM.entities.Indirizzo;
-import team_3.BW_CRM.entities.Utente;
 import team_3.BW_CRM.exceptions.BadRequestException;
 import team_3.BW_CRM.exceptions.NotFoundException;
 import team_3.BW_CRM.payloads.ClienteDTO;
 import team_3.BW_CRM.repositories.ClienteRepository;
+import team_3.BW_CRM.repositories.FatturaRepository;
 
-import java.util.List;
+import java.time.LocalDate;
 
 @Service
 public class ClienteService {
 
     @Autowired
     private ClienteRepository clienteRepository;
+    @Autowired
+    private FatturaRepository fatturaRepository;
 
     @Autowired
     private IndirizzoService indirizzoService;
@@ -36,17 +39,14 @@ public class ClienteService {
         return this.clienteRepository.findById(id).orElseThrow(() -> new NotFoundException("Nessun utente trovato!"));
     }
 
-    public Cliente findByEmail(String email) {
-        return this.clienteRepository.findByEmail(email).orElseThrow(() -> new NotFoundException("Nessuna mail trovata"));
+    public Page<Cliente> findByCriteria(Double fatturatoMinimo, LocalDate dataInserimento, LocalDate dataUltimoContatto,
+                                        String parteDelNome, String nomeContatto, String cognomeContatto, Pageable pageable) {
+        return clienteRepository.findAll(
+                ClienteSpecifications.withCriteria(fatturatoMinimo, dataInserimento, dataUltimoContatto, parteDelNome, nomeContatto, cognomeContatto),
+                pageable
+        );
     }
 
-    public Cliente findByPartitaIva(String partitaIva) {
-        return this.clienteRepository.findByPartitaIva(partitaIva).orElseThrow(() -> new NotFoundException("Nessuna mail trovata"));
-    }
-
-    public Cliente findByRagioneSociale(String ragioneSociale) {
-        return this.clienteRepository.findByRagioneSociale(ragioneSociale).orElseThrow(() -> new NotFoundException("Nessuna mail trovata"));
-    }
 
     public Cliente save(ClienteDTO body) {
         this.clienteRepository.findByEmail(body.email()).ifPresent(
