@@ -110,13 +110,13 @@ public class FatturaController {
 
         return fatturaService.findByNumeroAndUpdate(fatturaNumero, body);
     }
-
-    @DeleteMapping("/{fatturaNumero}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    @PreAuthorize("hasAuthority('ADMIN')")
-    public void findFatturaByNumeroAndDelete(@PathVariable Integer numero) {
-        this.fatturaService.findByNumeroAndDelete(numero);
-    }
+//
+//    @DeleteMapping("/{fatturaNumero}")
+//    @ResponseStatus(HttpStatus.NO_CONTENT)
+//    @PreAuthorize("hasAuthority('ADMIN')")
+//    public void findFatturaByNumeroAndDelete(@PathVariable Integer numero) {
+//        this.fatturaService.findByNumeroAndDelete(numero);
+//    }
 
 
     @PostMapping
@@ -150,8 +150,8 @@ public class FatturaController {
     @DeleteMapping("/{fatturaId}")
     @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void findByIdAndDelete(@PathVariable Long eventoId) {
-        this.fatturaService.findByIdAndDelete(eventoId);
+    public void findByIdAndDelete(@PathVariable Long fatturaId) {
+        this.fatturaService.findByIdAndDelete(fatturaId);
     }
 
     @GetMapping("/importo")
