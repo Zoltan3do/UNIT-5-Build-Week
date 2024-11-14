@@ -4,7 +4,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 
-@NoArgsConstructor
 @ToString
 @Entity
 @Table(name = "indirizzi")
@@ -25,6 +24,8 @@ public class Indirizzo {
     @JoinColumn(name = "comune_id")
     private Comune comune;
 
+    public Indirizzo(){};
+
     public Indirizzo(String via, String civico, String localita, String cap, Comune comune) {
         this.via = via;
         this.civico = civico;
@@ -32,6 +33,8 @@ public class Indirizzo {
         this.cap = cap;
         this.comune = comune;
     }
+
+
 
     public long getId() {
         return id;

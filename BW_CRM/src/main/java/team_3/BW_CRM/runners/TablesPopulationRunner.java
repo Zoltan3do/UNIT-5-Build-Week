@@ -21,7 +21,7 @@ public class TablesPopulationRunner implements CommandLineRunner {
 
 
        //  ps.estrazioneProvinceCsv(pathProvince);
-        // cs.estrazioneComuniCsv(pathComuni);
+      //   cs.estrazioneComuniCsv(pathComuni);
 
 
     }

@@ -1,5 +1,6 @@
 package team_3.BW_CRM.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,6 +25,7 @@ public class Provincia {
     private String regione;
 
     @OneToMany(mappedBy = "provincia")
+    @JsonIgnore
     private List<Comune> comuni = new ArrayList<>();
 
     public Provincia(String nome, String sigla, String regione) {

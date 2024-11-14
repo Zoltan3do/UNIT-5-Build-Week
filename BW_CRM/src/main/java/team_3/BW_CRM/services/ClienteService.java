@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import team_3.BW_CRM.entities.Cliente;
+import team_3.BW_CRM.entities.Indirizzo;
 import team_3.BW_CRM.entities.Utente;
 import team_3.BW_CRM.exceptions.BadRequestException;
 import team_3.BW_CRM.exceptions.NotFoundException;
@@ -17,8 +18,12 @@ import java.util.List;
 
 @Service
 public class ClienteService {
+
     @Autowired
     private ClienteRepository clienteRepository;
+
+    @Autowired
+    private IndirizzoService indirizzoService;
 
     public Page<Cliente> getAllClienteList(int page, int size, String sortBy) {
         if (size > 10) size = 10;
@@ -60,6 +65,8 @@ public class ClienteService {
                 }
         );
 
+        Indirizzo indirizzo = indirizzoService.saveIndirizzo(body.indirizzoSedeLegale());
+
         Cliente newCliente = new Cliente(body.ragioneSociale(),
                 body.partitaIva(),
                 body.email(),
@@ -69,7 +76,8 @@ public class ClienteService {
                 body.nomeContatto(),
                 body.cognomeContatto(),
                 body.telefonoContatto(),
-                body.tipoCliente()
+                body.tipoCliente(),
+                indirizzo
         );
         Cliente savedCliente = this.clienteRepository.save(newCliente);
 

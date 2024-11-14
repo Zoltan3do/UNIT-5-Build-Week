@@ -4,6 +4,7 @@ import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import team_3.BW_CRM.entities.Indirizzo;
 import team_3.BW_CRM.enums.TipoCliente;
@@ -37,5 +38,6 @@ public record ClienteDTO(@NotEmpty(message = "La ragione sociale è obbligatoria
                          String telefonoContatto,
                          @Enumerated(EnumType.STRING)
                          TipoCliente tipoCliente,
-                         Indirizzo indirizzoSedeLegale) {
+                         @NotNull
+                         IndirizzoDTO indirizzoSedeLegale) {
 }

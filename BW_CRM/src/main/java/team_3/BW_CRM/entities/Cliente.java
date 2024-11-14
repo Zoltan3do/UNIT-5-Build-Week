@@ -58,7 +58,8 @@ public class Cliente {
                    String nomeContatto,
                    String cognomeContatto,
                    String telefonoContatto,
-                   TipoCliente tipoCliente
+                   TipoCliente tipoCliente,
+                   Indirizzo sedeLegale
     ) {
         this.ragioneSociale = ragioneSociale;
         this.partitaIva = partitaIva;
@@ -73,7 +74,7 @@ public class Cliente {
         this.logoAziendale = "https://ui-avatars.com/api/?name=" + this.ragioneSociale;
         this.tipoCliente = tipoCliente;
         this.sedeLegale = sedeLegale;
-        this.sedeOperativa = sedeOperativa;
+        this.sedeOperativa = null;
     }
 
     public void aggiungiFattura(Fattura fattura) {

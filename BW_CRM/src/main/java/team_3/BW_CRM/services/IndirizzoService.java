@@ -22,13 +22,13 @@ public class IndirizzoService {
     @Autowired
     private ComuneService cs;
 
-    private List<Indirizzo> getAllIndirizzi() {
+    public List<Indirizzo> getAllIndirizzi() {
         return ir.findAll();
     }
 
-    private Optional<Indirizzo> getIndirizzoById(Long id) {
+    public Optional<Indirizzo> getIndirizzoById(Long id) {
         if (id == null) {
-            log.error("l'indirizzo id non puo essere null");
+            System.out.println("l'indirizzo id non puo essere null");
             throw new IllegalArgumentException("Indirizzo id null");
         }
         Optional<Indirizzo> indirizzo = ir.findById(id);
@@ -38,7 +38,7 @@ public class IndirizzoService {
         return ir.findById(id);
     }
 
-    private Indirizzo saveIndirizzo(IndirizzoDTO body) {
+    public Indirizzo saveIndirizzo(IndirizzoDTO body) {
         Indirizzo indirizzo1 = new Indirizzo();
         indirizzo1.setCap(body.cap());
         indirizzo1.setCivico(body.civico());
@@ -48,11 +48,15 @@ public class IndirizzoService {
         return ir.save(indirizzo1);
     }
 
-    private void deleteIndirizzo(Long id) {
+    public void deleteIndirizzo(Long id) {
         if (this.getIndirizzoById(id).isEmpty()) {
             throw new NotFoundException("Indirizzo da eliminare non trovato");
         }
         ir.deleteById(id);
+    }
+
+    public Indirizzo findById(Long id) {
+        return ir.findById(id).orElseThrow(() -> new NotFoundException("Nessun indirizzo trovato!"));
     }
 
 }
