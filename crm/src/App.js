@@ -1,13 +1,18 @@
 import './App.css';
-import { BrowserRouter } from "react-router-dom"
-import CustomLoginPage from './components/login/CustomLoginPage';
+import { BrowserRouter, Route, Routes } from "react-router-dom"
 import "bootstrap/dist/css/bootstrap.min.css"
+import CustomLogin from './components/login/CustomLogin';
+import RegisterPage from './components/login/RegisterPage';
+import CustomHomePage from './components/homepage/CustomHomePage';
 
 function App() {
   return (
     <BrowserRouter>
-      <CustomLoginPage />
-
+      <Routes>
+        <Route path="/login" element={<CustomLogin />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route parth="/homepage" element={<CustomHomePage />} />
+      </Routes>
     </BrowserRouter>
   );
 }
