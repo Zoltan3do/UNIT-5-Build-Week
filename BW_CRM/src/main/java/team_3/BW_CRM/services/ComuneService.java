@@ -9,6 +9,7 @@ import team_3.BW_CRM.entities.Comune;
 import team_3.BW_CRM.entities.Provincia;
 import team_3.BW_CRM.exceptions.NotFoundException;
 import team_3.BW_CRM.payloads.ComuneDTO;
+import team_3.BW_CRM.payloads.ProvinciaDTO;
 import team_3.BW_CRM.repositories.ComuneRepository;
 
 import java.io.BufferedReader;
@@ -66,6 +67,42 @@ public class ComuneService {
                 String codComune = colonne[1].trim();
                 String nomeComune = colonne[2].trim();
                 String nomeProvincia = colonne[3].trim();
+
+                switch (nomeProvincia){
+                    case "Verbano-Cusio-Ossola":
+                        nomeProvincia = "Verbania";
+                        break;
+                    case "Valle d'Aosta/Vallée d'Aoste":
+                        nomeProvincia = "Aosta";
+                        break;
+                    case "Monza e della Brianza":
+                        nomeProvincia = "Monza-Brianza";
+                        break;
+                    case "Bolzano/Bozen":
+                        nomeProvincia = "Bolzano";
+                        break;
+                    case "La Spezia":
+                        nomeProvincia = "La-Spezia";
+                        break;
+                    case "Reggio nell'Emilia":
+                        nomeProvincia = "Reggio-Emilia";
+                        break;
+                    case "Forlì-Cesena":
+                        nomeProvincia = "Forli-Cesena";
+                        break;
+                    case "Pesaro e Urbino":
+                        nomeProvincia= "Pesaro-Urbino";
+                        break;
+                    case "Ascoli Piceno":
+                        nomeProvincia = "Ascoli-Piceno";
+                        break;
+                    case "Reggio Calabria":
+                        nomeProvincia ="Reggio-Calabria";
+                        break;
+                    case "Vibo Valentia":
+                        nomeProvincia = "Vibo-Valentia";
+                        break;
+                }
 
                 if (!codProvincia.equals(codiceProvinciaCorrente)) {
                     codiceProvinciaCorrente = codProvincia;

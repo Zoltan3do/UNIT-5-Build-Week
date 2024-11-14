@@ -1,6 +1,8 @@
 package team_3.BW_CRM.controllers;
 
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -18,7 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/auth")
-
+@Tag(name = "authenticazione", description = "Gestione della registrazione e del login")
 public class AuthorizationController {
 
     @Autowired
@@ -28,6 +30,7 @@ public class AuthorizationController {
     private UserService userService;
 
     @PostMapping("/login")
+    @Operation(summary = "Fa il login", description = "Crea un token valido per il login")
     public UtenteLoginResponseDTO LoginResponseDTO(@RequestBody @Validated LoginDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             String message = validationResult.getAllErrors().stream().map(objectError -> objectError.getDefaultMessage()).collect(Collectors.joining(". "));
@@ -38,6 +41,7 @@ public class AuthorizationController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Fa la registrazione", description = "Crea un utente nel db")
     public Utente save(@RequestBody @Validated UtenteDTO body, BindingResult validationResult) {
         if (validationResult.hasErrors()) {
             String message = validationResult.getAllErrors().stream().map(objectError -> objectError.getDefaultMessage()).collect(Collectors.joining(". "));

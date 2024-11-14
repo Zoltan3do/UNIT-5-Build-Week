@@ -15,6 +15,7 @@ public class SwaggerConfig {
                 .build();
     }
 
-    // @Tag(name = "Indirizzo", description = "Gestione degli indirizzi")
+    // @Tag(name = "authenticazione", description = "Gestione della registrazione e del login")
     // @Operation(summary = "Ottieni tutti gli indirizzi", description = "Ritorna una lista di tutti gli indirizzi presenti nel sistema")
+
 }
