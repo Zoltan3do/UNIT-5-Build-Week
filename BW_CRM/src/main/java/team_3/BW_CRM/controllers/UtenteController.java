@@ -7,6 +7,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import team_3.BW_CRM.entities.Utente;
 import team_3.BW_CRM.payloads.UtenteDTO;
+import team_3.BW_CRM.services.ClienteService;
 import team_3.BW_CRM.services.UserService;
 
 import java.net.URI;
@@ -19,26 +20,29 @@ public class UtenteController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ClienteService clienteService;
+
     @GetMapping("/{id}")
     public ResponseEntity<Utente> getUserById(@PathVariable Long id) {
         Utente user = userService.findById(id);
         return ResponseEntity.ok(user);
     }
 
-    @GetMapping("/username/{username}")
+    @GetMapping("/{username}")
     public ResponseEntity<Utente> getUserByUsername(@PathVariable String username) {
         Utente user = userService.findByUsername(username);
         return ResponseEntity.ok(user);
     }
 
 
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}/assign-role")
     public ResponseEntity<Void> assignRoleToUser(@PathVariable Long id, @RequestParam String roleType) {
         userService.assignRoleToUser(id, roleType);
         return ResponseEntity.ok().build();
     }
-
+    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}/remove-role")
     public ResponseEntity<Void> removeRoleFromUser(@PathVariable Long id, @RequestParam String roleType) {
         userService.removeRoleFromUser(id, roleType);
@@ -47,13 +51,13 @@ public class UtenteController {
 
 
     @GetMapping("/by-role")
-    public ResponseEntity<List<Utente>> getUsersByRole(@RequestParam String tipoRuolo) {
-        List<Utente> users = userService.findUtenteByRuolo(tipoRuolo);
+    public ResponseEntity<List<Utente>> getUsersByRole(@RequestParam String roleType) {
+        List<Utente> users = userService.findUtenteByRuolo(roleType);
         return ResponseEntity.ok(users);
     }
 
     @PutMapping("/{id}")
-   // @PreAuthorize("hasAuthority('ADMIN')")
+   @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Utente> updateUser(@PathVariable Long id, @RequestBody UtenteDTO userDTO) {
         Utente updatedUser = userService.updateUser(id, userDTO);
         //Utente uploadImage = userService.uploadFotoProfilo();
@@ -61,10 +65,17 @@ public class UtenteController {
     }
 
     @DeleteMapping("/{id}")
-    //@PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<Void> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
+    }
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/{clienteId}/invia-email")
+    public void sendEmailToCliente(@PathVariable Long clienteId,
+                                   @RequestParam String subject,
+                                   @RequestParam String message) {
+        clienteService.sendEmailToCliente(clienteId, subject, message);
     }
 }

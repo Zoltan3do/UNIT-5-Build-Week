@@ -51,6 +51,13 @@ public class ClienteController {
     }
 
 
+    @PostMapping("/{clienteId}/invia-email")
+    public void sendEmailToCliente(@PathVariable Long clienteId,
+                                   @RequestParam String subject,
+                                   @RequestParam String message) {
+        clienteService.sendEmailToCliente(clienteId, subject, message);
+    }
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
 

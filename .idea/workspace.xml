@@ -28,7 +28,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="cliente-branch" />
+        <entry key="$PROJECT_DIR$" value="dev" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -60,6 +60,9 @@
     "git-widget-placeholder": "cliente-branch",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Users/marco/Desktop/corso epicode/back-end/unità 2/settimana 3/UNIT-5-Build-Week/BW_CRM",
+    "git-widget-placeholder": "mail__gunner",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/lucas/OneDrive/Desktop/UNIT-5-Build-Week/BW_CRM",
     "project.structure.last.edited": "Project",
     "project.structure.proportion": "0.0",
     "project.structure.side.proportion": "0.0",

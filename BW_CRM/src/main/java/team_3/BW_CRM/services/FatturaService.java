@@ -17,6 +17,7 @@ import team_3.BW_CRM.payloads.NewFatturaDTO;
 import team_3.BW_CRM.repositories.ClienteRepository;
 import team_3.BW_CRM.repositories.FatturaRepository;
 import team_3.BW_CRM.repositories.StatoFatturaRepository;
+import team_3.BW_CRM.tools.MailgunSender;
 
 import java.time.LocalDate;
 import java.util.Optional;
@@ -32,6 +33,9 @@ public class FatturaService {
 
     @Autowired
     StatoFatturaRepository statoFatturaRepository;
+
+    @Autowired
+    MailgunSender mailgunSender;
 
     public Page<Fattura> findWithFilters(Long clienteId, LocalDate data, Integer anno, Double minImporto, Double maxImporto, Pageable pageable) {
         Specification<Fattura> specs = Specification.where(null);
@@ -54,6 +58,7 @@ public class FatturaService {
 
         return fatturaRepository.findAll(specs, pageable);
     }
+    
 
     public Fattura createFattura(NewFatturaDTO body) {
         if (fatturaRepository.existsByNumero(body.numero())) {
@@ -70,6 +75,15 @@ public class FatturaService {
             statoFatturaOpt = Optional.of(statoFatturaRepository.save(new StatoFattura("EMESSA")));
         }
 
+        if (fatturaRepository.existsByNumero(body.numero())) {
+            throw new BadRequestException("Numero fattura " + body.numero() + " già in uso!");
+        }
+
+        Optional<Cliente> clienteFound = clienteRepository.findById(body.clienteId().getId());
+
+        if (clienteFound.isEmpty()) {
+            throw new NotFoundException("Cliente non trovato!");
+        }
 
         Fattura fattura = new Fattura(
                 body.data(),
@@ -82,6 +96,14 @@ public class FatturaService {
         cliente.aggiungiFattura(fattura);
 
         return fatturaRepository.save(fattura);
+                clienteFound.get()
+        );
+
+        Fattura savedFattura = fatturaRepository.save(fattura);
+
+        mailgunSender.sendFatturaEmail(savedFattura);
+
+        return savedFattura;
     }
 
 

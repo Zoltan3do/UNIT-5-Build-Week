@@ -13,6 +13,7 @@ import team_3.BW_CRM.exceptions.NotFoundException;
 import team_3.BW_CRM.payloads.UtenteDTO;
 import team_3.BW_CRM.repositories.RuoloRepository;
 import team_3.BW_CRM.repositories.UserRepository;
+import team_3.BW_CRM.tools.MailgunSender;
 
 import java.io.IOException;
 import java.util.List;
@@ -28,6 +29,10 @@ public class UserService {
 
     @Autowired
     private RuoloRepository ruoloRepository;
+
+
+    @Autowired
+    private MailgunSender mailgunSender;
 
 //    @Autowired
 //    private Cloudinary cloudinaryUploader;
@@ -59,7 +64,11 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException("Ruolo USER non trovato"));
         newUser.getRuoli().add(ruoloUser);
 
-        return this.userRepository.save(newUser);
+        Utente savedUser = this.userRepository.save(newUser);
+
+        mailgunSender.sendRegistrationEmail(savedUser);
+
+        return savedUser;
     }
 
 //    public String uploadFotoProfilo(MultipartFile file, Long idUtente) {
