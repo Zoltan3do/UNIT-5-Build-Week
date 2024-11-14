@@ -6,9 +6,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import team_3.BW_CRM.entities.Cliente;
 import team_3.BW_CRM.exceptions.BadRequestException;
 import team_3.BW_CRM.payloads.ClienteDTO;
@@ -67,5 +69,11 @@ public class ClienteController {
             throw new BadRequestException("Ci sono stati errori nel payload! " + message);
         }
         return this.clienteService.save(body);
+    }
+
+    @PatchMapping("/{clienteId}/logo")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String addLogo(@PathVariable("clienteId") Long clienteId, @RequestParam("logo") MultipartFile file){
+        return this.clienteService.uploadLogoAziendale( file, clienteId);
     }
 }

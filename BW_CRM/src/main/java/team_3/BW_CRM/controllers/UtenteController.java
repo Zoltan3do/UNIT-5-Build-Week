@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import team_3.BW_CRM.entities.Utente;
 import team_3.BW_CRM.payloads.UtenteDTO;
 import team_3.BW_CRM.services.ClienteService;
@@ -77,5 +78,11 @@ public class UtenteController {
                                    @RequestParam String subject,
                                    @RequestParam String message) {
         clienteService.sendEmailToCliente(clienteId, subject, message);
+    }
+
+    @PatchMapping("/{utenteId}/avatar")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    public String addLogo(@PathVariable("utenteId") Long utenteId, @RequestParam("avatar") MultipartFile file){
+        return this.userService.uploadFotoProfilo( file, utenteId);
     }
 }

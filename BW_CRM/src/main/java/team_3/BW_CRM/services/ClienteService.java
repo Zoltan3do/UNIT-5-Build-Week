@@ -1,14 +1,18 @@
 package team_3.BW_CRM.services;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import team_3.BW_CRM.entities.Cliente;
 import team_3.BW_CRM.entities.ClienteSpecifications;
 import team_3.BW_CRM.entities.Indirizzo;
+import team_3.BW_CRM.entities.Utente;
 import team_3.BW_CRM.exceptions.BadRequestException;
 import team_3.BW_CRM.exceptions.NotFoundException;
 import team_3.BW_CRM.payloads.ClienteDTO;
@@ -31,6 +35,9 @@ public class ClienteService {
 
     @Autowired
     private MailgunSender mailgunSender;
+
+    @Autowired
+    private Cloudinary cloudinaryUploader;
 
     public void sendEmailToCliente(Long clienteId, String subject, String message) {
         Cliente cliente = clienteRepository.findById(clienteId)
@@ -93,5 +100,19 @@ public class ClienteService {
         Cliente savedCliente = this.clienteRepository.save(newCliente);
 
         return savedCliente;
+    }
+
+    public String uploadLogoAziendale(MultipartFile file, Long idCliente) {
+        try {
+            String url = (String) cloudinaryUploader.uploader()
+                    .upload(file.getBytes(), ObjectUtils.emptyMap())
+                    .get("url");
+            Cliente found = this.findById(idCliente);
+            found.setLogoAziendale(url);
+            clienteRepository.save(found);
+            return url;
+        } catch (java.io.IOException e) {
+            throw new BadRequestException("Errore durante l'upload dell'immagine!");
+        }
     }
 }
