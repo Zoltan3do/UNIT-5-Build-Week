@@ -12,8 +12,12 @@ function App() {
       <Routes>
         <Route path="/" element={<CustomLogin />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/homepage" element={<CustomHomePage />} />
+
+
         <Route path="/me" element={<MyProfile />} />
+
+        <Route path="/homepage/*" element={<CustomHomePage />} />
+
       </Routes>
     </BrowserRouter>
   );

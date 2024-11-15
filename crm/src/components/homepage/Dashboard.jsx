@@ -1,6 +1,23 @@
+import { useEffect, useRef, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
-const Dashboard = () => {
+const Dashboard = ({ dataClienti, dataFatture }) => {
+
+    const [statsClienti, setStatsClienti] = useState(0)
+    const [statsFatture, setStatsFatture] = useState(0)
+    const hasChanged = useRef(false);
+
+    useEffect(() => {
+
+        if(hasChanged.current) {
+            setStatsClienti(dataClienti.length);
+            setStatsFatture(dataFatture.length)
+        } else {
+            hasChanged.current = true;
+        }
+
+    }, [statsClienti]);
+
     return (
         <>
             <Container fluid className="dash-board py-2">
@@ -13,7 +30,7 @@ const Dashboard = () => {
                     <Col lg={6}>
                         <div className="text-center">
                             <div style={{ fontSize: "40px" }}>
-                                <p> 12</p>
+                                <p> {statsFatture}</p>
                             </div>
                             <div style={{ fontWeight: "300" }}>
                                 <p> Fatture</p>
@@ -23,7 +40,7 @@ const Dashboard = () => {
                     <Col lg={6}>
                         <div className="text-center">
                             <div style={{ fontSize: "40px" }}>
-                                <p> 22</p>
+                                <p> {statsClienti}</p>
                             </div>
                             <div style={{ fontWeight: "300" }}>
                                 <p> Clienti</p>
