@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import team_3.BW_CRM.entities.Utente;
@@ -11,7 +13,6 @@ import team_3.BW_CRM.payloads.UtenteDTO;
 import team_3.BW_CRM.services.ClienteService;
 import team_3.BW_CRM.services.UserService;
 
-import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -23,6 +24,17 @@ public class UtenteController {
 
     @Autowired
     private ClienteService clienteService;
+
+    @GetMapping("/me")
+    public Utente getProfile(@AuthenticationPrincipal Utente currentUtente) {
+        return currentUtente;
+    }
+
+    @PutMapping("/me")
+    public Utente updateProfile(@AuthenticationPrincipal Utente currentUtente, @RequestBody @Validated UtenteDTO body) {
+        return userService.updateUser(currentUtente.getId(), body);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<Utente> getUserById(@PathVariable Long id) {
@@ -43,6 +55,7 @@ public class UtenteController {
         userService.assignRoleToUser(id, roleType);
         return ResponseEntity.ok().build();
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}/remove-role")
     public ResponseEntity<Void> removeRoleFromUser(@PathVariable Long id, @RequestParam String roleType) {
@@ -58,7 +71,7 @@ public class UtenteController {
     }
 
     @PutMapping("/{id}")
-   @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     public ResponseEntity<Utente> updateUser(@PathVariable Long id, @RequestBody UtenteDTO userDTO) {
         Utente updatedUser = userService.updateUser(id, userDTO);
         //Utente uploadImage = userService.uploadFotoProfilo();
@@ -72,6 +85,7 @@ public class UtenteController {
         userService.deleteUser(id);
         return ResponseEntity.noContent().build();
     }
+
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/{clienteId}/invia-email")
     public void sendEmailToCliente(@PathVariable Long clienteId,
@@ -82,7 +96,7 @@ public class UtenteController {
 
     @PatchMapping("/{utenteId}/avatar")
 //    @PreAuthorize("hasAuthority('ADMIN')")
-    public String addLogo(@PathVariable("utenteId") Long utenteId, @RequestParam("avatar") MultipartFile file){
-        return this.userService.uploadAvatar( file, utenteId);
+    public String addLogo(@PathVariable("utenteId") Long utenteId, @RequestParam("avatar") MultipartFile file) {
+        return this.userService.uploadAvatar(file, utenteId);
     }
 }

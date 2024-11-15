@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Card, Button, Row, Col, Container, Form } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Row, Col, Container, Form } from "react-bootstrap";
 
 const MyProfile = ({ user = {} }) => {
   const {
@@ -25,14 +24,11 @@ const MyProfile = ({ user = {} }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        `http://localhost:3001/utenti/me/${user.id}`,
-        {
-          method: "PUT",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`http://localhost:3001/api/utenti/me`, {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      });
       if (response.ok) {
         alert("Profilo aggiornato con successo!");
       } else {
@@ -67,7 +63,7 @@ const MyProfile = ({ user = {} }) => {
               Modifica profilo.
             </p>
           </div>
-          <form className="py-3">
+          <Form className="py-3">
             <div data-mdb-input-init class="py-2 px-3">
               <input
                 placeholder="Nome"
@@ -131,7 +127,7 @@ const MyProfile = ({ user = {} }) => {
                 </button>
               </div>
             </div>
-          </form>
+          </Form>
         </Col>
       </Row>
     </Container>
