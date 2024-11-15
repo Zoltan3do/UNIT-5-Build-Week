@@ -41,7 +41,7 @@ const RegisterPage = () => {
 
                             <div class="text-center py-2 d-flex align-items-center justify-content-center">
                                 <div className="px-2">
-                                    <Link to="/login" className="backhome-link">
+                                    <Link to="/" className="backhome-link">
                                         <p className="text-light">Go back to the login page.</p>
                                     </Link>
                                 </div>

@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CustomLogin = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -14,7 +15,7 @@ const CustomLogin = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const url = "http://localhost:3001/auth/login"; // Corretto URL
+        const url = "http://localhost:3001/auth/login"; 
       
         try {
           const response = await fetch(url, {
@@ -22,7 +23,7 @@ const CustomLogin = () => {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, password }) // Assicurati che email e password siano definiti
+            body: JSON.stringify({ email, password })
           });
       
           if (!response.ok) {
@@ -34,11 +35,15 @@ const CustomLogin = () => {
       
 
           localStorage.setItem("Access Token", data.accessToken);
+          navigate("/homepage")
+
       
         } catch (err) {
           console.log("Errore durante il login", err);
         }
       };
+
+
     return (
         <>
             <Container fluid className="vh-100 d-flex align-items-center justify-content-center">
