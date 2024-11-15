@@ -33,7 +33,7 @@ const CustomLogin = () => {
           console.log("I tuoi dati", data);
       
 
-          localStorage.setItem("Access Token", JSON.stringify(data));
+          localStorage.setItem("Access Token", data.accessToken);
       
         } catch (err) {
           console.log("Errore durante il login", err);
