@@ -27,12 +27,10 @@ const CustomHomePage = () => {
                         <Dashboard dataClienti={dataClienti} dataFatture={dataFatture} />
                     </Col>
                     <Col lg={6} className="py-2">
-               
                             <Routes>
                                 <Route path="fatture" element={<ListDataFatture dataFatture={dataFatture} selectedFilter={selectedFilter} setLoadingFatture={setLoadingFatture} setDataFatture={setDataFatture } />} />
                                 <Route path="clienti" element={<ListDataClienti dataClienti={dataClienti} setSelectedFilter={setSelectedFilter} setDataClienti={setDataClienti} setLoadingClienti={setLoadingClienti} />} />
                             </Routes>
-                     
                     </Col>
                 </Row>
             </Container>

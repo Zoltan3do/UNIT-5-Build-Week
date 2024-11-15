@@ -5,14 +5,13 @@ const ListDataFatture = ({ dataFatture, setDataFatture, setLoadingFatture }) => 
 
     const fetchDataFatture = async () => {
         const url = `http://localhost:3001/fatture`;
-        const token = localStorage.getItem('token');
 
         try {
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': "Bearer eyJhbGciOiJIUzM4NCJ9.eyJpYXQiOjE3MzE2NzQ4NDIsImV4cCI6MTczMTY3ODE0Miwic3ViIjoiMSJ9.81bChqmk5mfLpC1N54PGFeKXhepnXtjQc9VOscS-aAxjLSFAbFYAkCvTstUvPNGu"
+                    'Authorization': "Bearer " + localStorage.getItem("Access Token")
                 }
             });
 

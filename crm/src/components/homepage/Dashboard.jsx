@@ -15,7 +15,7 @@ const Dashboard = ({ dataClienti, dataFatture }) => {
         } else {
             hasChanged.current = true;
         }
-
+        
     }, [statsClienti]);
 
     return (

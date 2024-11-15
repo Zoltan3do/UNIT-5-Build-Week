@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap"
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CustomLogin = () => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
 
     useEffect(() => {
@@ -33,7 +34,8 @@ const CustomLogin = () => {
           console.log("I tuoi dati", data);
       
 
-          localStorage.setItem("Access Token", data.accessToken);
+          localStorage.setItem("Access_Token", data.accessToken);
+          navigate("/homepage")
       
         } catch (err) {
           console.log("Errore durante il login", err);
