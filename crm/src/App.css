@@ -63,13 +63,33 @@ p {
   border: 1px solid rgba(88, 88, 88, 0.325) !important;
 }
 
-.register-link, .backhome-link {
+.register-link,
+.backhome-link {
   text-decoration: none;
   color: white;
   opacity: 0.6;
   transition: all 0.2s ease-in-out;
 }
 
-.register-link:hover, .backhome-link:hover {
+.register-link:hover,
+.backhome-link:hover {
   opacity: 1;
+}
+
+
+/* HOMEPAGE */
+
+.icons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  transition: border 0.2s ease-in-out;
+}
+
+.icons:hover {
+  border: 1px solid rgb(129, 129, 129);
+  cursor: pointer;
 }

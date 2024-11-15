@@ -9,9 +9,9 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/login" element={<CustomLogin />} />
+        <Route path="/" element={<CustomLogin />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route parth="/homepage" element={<CustomHomePage />} />
+        <Route path="/homepage" element={<CustomHomePage />} />
       </Routes>
     </BrowserRouter>
   );
