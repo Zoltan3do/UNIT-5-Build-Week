@@ -26,19 +26,19 @@ public class ClienteController {
     private ClienteService clienteService;
 
 
-    @GetMapping
-    public Page<Cliente> getCliente(@RequestParam(defaultValue = "0") int page,
-                                    @RequestParam(defaultValue = "10") int size,
-                                    @RequestParam(defaultValue = "id") String sortBy) {
-        return clienteService.getAllClienteList(page, size, sortBy);
-    }
+//    @GetMapping
+//    public Page<Cliente> getCliente(@RequestParam(defaultValue = "0") int page,
+//                                    @RequestParam(defaultValue = "10") int size,
+//                                    @RequestParam(defaultValue = "id") String sortBy) {
+//        return clienteService.getAllClienteList(page, size, sortBy);
+//    }
 
     @GetMapping("/{id}")
     public Cliente getClienteById(@PathVariable Long id) {
         return clienteService.findById(id);
     }
 
-    @GetMapping("/cerca")
+    @GetMapping()
     public Page<Cliente> searchClientes(@RequestParam(required = false) Double fatturatoMinimo,
                                         @RequestParam(required = false) LocalDate dataInserimento,
                                         @RequestParam(required = false) LocalDate dataUltimoContatto,
