@@ -2,17 +2,25 @@ import React, { useState } from "react";
 import { Card, Button, Row, Col, Container, Form } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-const MyProfile = ({ user }) => {
-  //   const [formData, setFormData] = useState({
-  //     username: user.username,
-  //     email: user.email,
-  //     nome: user.nome,
-  //     cognome: user.cognome,
-  //     avatar: user.avatar,
-  //   });
+const MyProfile = ({ user = {} }) => {
+  const {
+    username = "",
+    email = "",
+    nome = "",
+    cognome = "",
+    avatar = "",
+  } = user;
+  const [formData, setFormData] = useState({
+    username,
+    email,
+    nome,
+    cognome,
+    avatar,
+    password: "",
+  });
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // setFormData({ ...formData, [name]: value });
+    setFormData({ ...formData, [name]: value });
   };
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,7 +30,7 @@ const MyProfile = ({ user }) => {
         {
           method: "PUT",
           headers: { "Content-Type": "application/json" },
-          //   body: JSON.stringify(formData),
+          body: JSON.stringify(formData),
         }
       );
       if (response.ok) {
@@ -65,6 +73,8 @@ const MyProfile = ({ user }) => {
                 placeholder="Nome"
                 type="text"
                 id="form2Example1"
+                value={formData.nome}
+                onChange={handleChange}
                 class="form-input"
               />
             </div>
@@ -73,6 +83,8 @@ const MyProfile = ({ user }) => {
                 placeholder="Cognome"
                 type="text"
                 id="form2Example1"
+                value={formData.cognome}
+                onChange={handleChange}
                 class="form-input"
               />
             </div>
@@ -81,6 +93,8 @@ const MyProfile = ({ user }) => {
                 placeholder="Username"
                 type="text"
                 id="form2Example1"
+                value={formData.username}
+                onChange={handleChange}
                 class="form-input"
               />
             </div>
@@ -89,6 +103,8 @@ const MyProfile = ({ user }) => {
                 placeholder="Email"
                 type="text"
                 id="form2Example1"
+                value={formData.email}
+                onChange={handleChange}
                 class="form-input"
               />
             </div>
@@ -97,6 +113,8 @@ const MyProfile = ({ user }) => {
                 placeholder="Password"
                 type="password"
                 id="form2Example2"
+                value={formData.password}
+                onChange={handleChange}
                 class="form-input"
               />
             </div>
@@ -106,6 +124,8 @@ const MyProfile = ({ user }) => {
                   data-mdb-button-init
                   data-mdb-ripple-init
                   class="custom-button"
+                  type="submit"
+                  onSubmit={handleSubmit}
                 >
                   Salva
                 </button>
