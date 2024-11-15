@@ -14,7 +14,7 @@ const CustomLogin = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        const url = "http://localhost:3001/auth/login"; // Corretto URL
+        const url = "http://localhost:3001/auth/login"; 
       
         try {
           const response = await fetch(url, {
@@ -22,7 +22,7 @@ const CustomLogin = () => {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ email, password }) // Assicurati che email e password siano definiti
+            body: JSON.stringify({ email, password })
           });
       
           if (!response.ok) {
@@ -33,7 +33,7 @@ const CustomLogin = () => {
           console.log("I tuoi dati", data);
       
 
-          localStorage.setItem("Access Token", JSON.stringify(data));
+          localStorage.setItem("Access Token", data.accessToken);
       
         } catch (err) {
           console.log("Errore durante il login", err);
