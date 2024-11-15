@@ -34,13 +34,16 @@ const CustomLogin = () => {
           console.log("I tuoi dati", data);
       
 
-          localStorage.setItem("Access_Token", data.accessToken);
+          localStorage.setItem("Access Token", data.accessToken);
           navigate("/homepage")
+
       
         } catch (err) {
           console.log("Errore durante il login", err);
         }
       };
+
+
     return (
         <>
             <Container fluid className="vh-100 d-flex align-items-center justify-content-center">

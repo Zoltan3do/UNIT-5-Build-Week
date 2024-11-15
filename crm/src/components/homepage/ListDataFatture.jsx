@@ -11,7 +11,7 @@ const ListDataFatture = ({ dataFatture, setDataFatture, setLoadingFatture }) => 
     const fetchDataFatture = async () => {
       
 
-        const rangeUrl = `http://localhost:3001/fatture?minImporto=${valueRangeMin}&maxImporto${valueRangeMax}`;
+        const rangeUrl = `http://localhost:3001/fatture?minImporto=${valueRangeMin}&maxImporto=${valueRangeMax}`;
         const genericUrl = "http://localhost:3001/fatture";
         let url = `http://localhost:3001/fatture?${selectedFilter}=${valueFilter}`;
 
@@ -24,13 +24,13 @@ const ListDataFatture = ({ dataFatture, setDataFatture, setLoadingFatture }) => 
         }
 
 
-        const token = localStorage.getItem('token');
-
         try {
+            console.log(localStorage.getItem("Access Token"))
             const response = await fetch(url, {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',
+
                     'Authorization': "Bearer " + localStorage.getItem("Access Token")
                 }
             });
