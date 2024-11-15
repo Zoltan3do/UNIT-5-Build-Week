@@ -1,10 +1,31 @@
 import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 
 const ListDataFatture = ({ dataFatture, setDataFatture, setLoadingFatture }) => {
 
+    const [selectedFilter, setSelectedFilter] = useState("");
+    const [valueFilter, setValueFilter] = useState("")
+    const [valueRangeMin, setValueRangeMin] = useState("")
+    const [valueRangeMax, setValueRangeMax] = useState("")
+
     const fetchDataFatture = async () => {
-        const url = `http://localhost:3001/fatture`;
+      
+
+        const rangeUrl = `http://localhost:3001/fatture?minImporto=${valueRangeMin}&maxImporto${valueRangeMax}`;
+        const genericUrl = "http://localhost:3001/fatture";
+        let url = `http://localhost:3001/fatture?${selectedFilter}=${valueFilter}`;
+
+        if (selectedFilter === "" && valueFilter === "") {
+            url = genericUrl;
+        }
+
+        if(selectedFilter === "rangeDiPrezzo") {
+            url = rangeUrl
+        }
+
+
+        const token = localStorage.getItem('token');
 
         try {
             const response = await fetch(url, {
@@ -35,6 +56,56 @@ const ListDataFatture = ({ dataFatture, setDataFatture, setLoadingFatture }) => 
 
     return (
         <>
+
+            <Container fluid className="text-light py-2">
+                <Row>
+                    <Col>
+                        <div className="d-flex align-items-center justify-content-between">
+                            <div className="d-flex align-items-center">
+                                <div>
+                                    <label for="filter"> Filtra per: </label>
+                                </div>
+                                <div className="ms-2">
+                                    <select id="filter" className="rounded-2" onChange={(e) => setSelectedFilter(e.target.value)}>
+                                        <option value=""> - </option>
+                                        <option value="cliente"> Cliente</option>
+                                        <option value="statoFattura"> Stato Fattura </option>
+                                        <option value="data"> Data Inserimento</option>
+                                        <option value="anno"> Anno </option>
+                                        <option value="rangeDiPrezzo"> Range Di Prezzo</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {
+                                selectedFilter === "rangeDiPrezzo" ?
+                                    (
+                                        <>
+                                            <div>
+                                                <input placeholder="Min" style={{width: "80px"}} className="rounded-2" onChange={(e) => setValueRangeMin(e.target.value)} />
+                                            </div>
+                                            <div>
+                                                <input placeholder="Max" style={{width: "80px"}} className="rounded-2" onChange={(e) => setValueRangeMax(e.target.value)} />
+                                            </div>
+                                        </>
+
+                                    )
+                                    :
+                                    (
+                                        <div>
+                                            <input className="rounded-2" onChange={(e) => setValueFilter(e.target.value)} />
+                                        </div>
+
+                                    )
+                            }
+                            <div>
+                                <button style={{ borderRadius: "8px" }} onClick={fetchDataFatture}> Applica</button>
+                            </div>
+                        </div>
+                    </Col>
+                </Row>
+            </Container >
+
+
             <Container fluid className="list-data py-2">
                 <Row>
                     <Col className="text-center">
@@ -45,6 +116,9 @@ const ListDataFatture = ({ dataFatture, setDataFatture, setLoadingFatture }) => 
                     </Col>
                     <Col className="text-center">
                         <p> Importo</p>
+                    </Col>
+                    <Col className="text-center">
+                        <p> Stato </p>
                     </Col>
                     <Col className="text-center">
                         <p> Cliente </p>
@@ -60,6 +134,9 @@ const ListDataFatture = ({ dataFatture, setDataFatture, setLoadingFatture }) => 
                                     </Col>
                                     <Col className="text-center">
                                         <p>  {fattura.data}</p>
+                                    </Col>
+                                    <Col className="text-center">
+                                        <p>  {fattura.statoFattura.tipo}</p>
                                     </Col>
                                     <Col className="text-center">
                                         <p> {fattura.importo}</p>
